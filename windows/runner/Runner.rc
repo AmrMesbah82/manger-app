@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "Amr Mesbah" "\0"
-            VALUE "FileDescription", "manger_plus" "\0"
+            VALUE "FileDescription", "Mostakbal" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "manger_plus" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2026 Amr Mesbah. All rights reserved." "\0"
             VALUE "OriginalFilename", "manger_plus.exe" "\0"
-            VALUE "ProductName", "manger_plus" "\0"
+            VALUE "ProductName", "Mostakbal" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

@@ -9,7 +9,7 @@ class SAr extends S {
   SAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get appName => 'مانجر بلس';
+  String get appName => 'مستقبل';
 
   @override
   String get appTagline => 'التعلم بشكل منظم';
@@ -277,12 +277,12 @@ class SAr extends S {
 
   @override
   String wrongDeviceMobileBody(String role) {
-    return 'حسابات $role تستخدم تطبيق مانجر بلس على الهاتف أو الجهاز اللوحي. ثبّته هناك وسجّل الدخول بنفس البريد.';
+    return 'حسابات $role تستخدم تطبيق مستقبل على الهاتف أو الجهاز اللوحي. ثبّته هناك وسجّل الدخول بنفس البريد.';
   }
 
   @override
   String wrongDeviceDesktopBody(String role) {
-    return 'حسابات $role تستخدم لوحة التحكم على الجهاز اللوحي أو الكمبيوتر. افتح مانجر بلس هناك وسجّل الدخول بنفس البريد.';
+    return 'حسابات $role تستخدم لوحة التحكم على الجهاز اللوحي أو الكمبيوتر. افتح مستقبل هناك وسجّل الدخول بنفس البريد.';
   }
 
   @override

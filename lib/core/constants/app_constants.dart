@@ -18,7 +18,7 @@ abstract class AppConstants {
   static const Size designSize = Size(390, 844);
 
   /// English brand name. On screen use `S.of(context).appName`.
-  static const String appName = 'Manger Plus';
+  static const String appName = 'Mostakbal';
   static const String appNameAr = 'مانجر بلس';
 
   static String appNameFor(String languageCode) =>

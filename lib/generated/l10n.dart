@@ -100,7 +100,7 @@ abstract class S {
   /// No description provided for @appName.
   ///
   /// In en, this message translates to:
-  /// **'Manger Plus'**
+  /// **'Mostakbal'**
   String get appName;
 
   /// No description provided for @appTagline.
@@ -598,13 +598,13 @@ abstract class S {
   /// No description provided for @wrongDeviceMobileBody.
   ///
   /// In en, this message translates to:
-  /// **'{role} accounts use the Manger Plus app on a phone or tablet. Install it there and sign in with the same email.'**
+  /// **'{role} accounts use the Mostakbal app on a phone or tablet. Install it there and sign in with the same email.'**
   String wrongDeviceMobileBody(String role);
 
   /// No description provided for @wrongDeviceDesktopBody.
   ///
   /// In en, this message translates to:
-  /// **'{role} accounts use the console on a tablet or computer. Open Manger Plus there and sign in with the same email.'**
+  /// **'{role} accounts use the console on a tablet or computer. Open Mostakbal there and sign in with the same email.'**
   String wrongDeviceDesktopBody(String role);
 
   /// No description provided for @signOut.

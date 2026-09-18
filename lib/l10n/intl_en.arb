@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "appName": "Manger Plus",
+  "appName": "Mostakbal",
   "appTagline": "Learning, organised",
   "roleAdmin": "Admin",
   "roleTeacher": "Teacher",
@@ -90,7 +90,7 @@
   "mobileAccountsHint": "Students and parents sign in here. Teachers use a tablet or computer.",
   "wrongDeviceMobileTitle": "Open this account on a phone or tablet",
   "wrongDeviceDesktopTitle": "Open this account on a tablet or computer",
-  "wrongDeviceMobileBody": "{role} accounts use the Manger Plus app on a phone or tablet. Install it there and sign in with the same email.",
+  "wrongDeviceMobileBody": "{role} accounts use the Mostakbal app on a phone or tablet. Install it there and sign in with the same email.",
   "@wrongDeviceMobileBody": {
     "placeholders": {
       "role": {
@@ -98,7 +98,7 @@
       }
     }
   },
-  "wrongDeviceDesktopBody": "{role} accounts use the console on a tablet or computer. Open Manger Plus there and sign in with the same email.",
+  "wrongDeviceDesktopBody": "{role} accounts use the console on a tablet or computer. Open Mostakbal there and sign in with the same email.",
   "@wrongDeviceDesktopBody": {
     "placeholders": {
       "role": {

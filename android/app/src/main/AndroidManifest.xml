@@ -3,7 +3,7 @@
          release builds do not. -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="manger_plus"
+        android:label="Mostakbal"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -9,7 +9,7 @@ class SEn extends S {
   SEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appName => 'Manger Plus';
+  String get appName => 'Mostakbal';
 
   @override
   String get appTagline => 'Learning, organised';
@@ -280,12 +280,12 @@ class SEn extends S {
 
   @override
   String wrongDeviceMobileBody(String role) {
-    return '$role accounts use the Manger Plus app on a phone or tablet. Install it there and sign in with the same email.';
+    return '$role accounts use the Mostakbal app on a phone or tablet. Install it there and sign in with the same email.';
   }
 
   @override
   String wrongDeviceDesktopBody(String role) {
-    return '$role accounts use the console on a tablet or computer. Open Manger Plus there and sign in with the same email.';
+    return '$role accounts use the console on a tablet or computer. Open Mostakbal there and sign in with the same email.';
   }
 
   @override

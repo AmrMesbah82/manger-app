@@ -1,0 +1,217 @@
+rules_version = '2';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Manger Plus — Firestore security rules
+//
+// The API key ships inside every build, so the app's own role checks protect
+// nothing on their own. THESE rules are the boundary. Every rule below is
+// written for the exact query the app makes (see the data sources) — Firestore
+// judges a QUERY by whether every document it could return is allowed, so a
+// list rule must be provable from the query's own filters.
+//
+// Roles live on users/{uid}.role, written only by an admin. The teacher's
+// permission switches live on users/{uid}.permissions.<key> and are checked
+// here too, so switching one off stops the WRITE, not just the button.
+//
+// Deploy:  firebase deploy --only firestore:rules
+// ─────────────────────────────────────────────────────────────────────────────
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helpers ─────────────────────────────────────────────────────────────
+
+    function signedIn() { return request.auth != null; }
+
+    function me() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function hasProfile() {
+      return signedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function roleIs(r) { return hasProfile() && me().role == r && me().active == true; }
+    function isAdmin()   { return roleIs('admin'); }
+    function isTeacher() { return roleIs('teacher'); }
+    function isStudent() { return roleIs('student'); }
+    function isParent()  { return roleIs('parent'); }
+    function isStaff()   { return isAdmin() || isTeacher(); }
+
+    /// A teacher permission switch (see TeacherPermission in the app).
+    function can(p) {
+      return isAdmin() || (isTeacher() && me().permissions[p] == true);
+    }
+
+    function unchanged(field) {
+      return request.resource.data[field] == resource.data[field];
+    }
+
+    function setupDone() {
+      return exists(/databases/$(database)/documents/config/setup);
+    }
+
+    // ── Setup marker ────────────────────────────────────────────────────────
+    //
+    // Readable by anyone so the sign-in screen can ask "is there an admin
+    // yet?" before anybody is signed in. Created exactly once, in the same
+    // batch as the first admin's profile.
+    match /config/setup {
+      allow get: if true;
+      allow create: if signedIn()
+                    && !setupDone()
+                    && request.resource.data.admin_uid == request.auth.uid
+                    && getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+      allow update, delete: if false;
+    }
+
+    // ── Users ───────────────────────────────────────────────────────────────
+    match /users/{userId} {
+      // Your own profile; everything for staff; a teacher's profile for any
+      // signed-in user (parents pick who to message); your child's profile
+      // for a parent.
+      allow get: if signedIn() && (
+                    request.auth.uid == userId
+                    || isAdmin()
+                    || (isTeacher() && resource.data.role in ['student', 'parent'])
+                    || resource.data.role == 'teacher'
+                    || (isParent() && request.auth.uid in resource.data.parent_ids)
+                  );
+
+      // Queries the app makes:
+      //   admin:   where role == X                         (any)
+      //   teacher: where role == 'student' && section_id in [...]
+      //   anyone:  where role == 'teacher' && section_ids array-contains X
+      allow list: if isAdmin()
+                  || (isTeacher() && resource.data.role == 'student')
+                  || (signedIn() && resource.data.role == 'teacher');
+
+      // The first admin creates their own profile — once, in the batch that
+      // also creates config/setup.
+      allow create: if signedIn()
+                    && request.auth.uid == userId
+                    && !setupDone()
+                    && request.resource.data.role == 'admin'
+                    && existsAfter(/databases/$(database)/documents/config/setup);
+
+      // Everyone else is created and managed by an admin.
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin()
+                    // …and anyone may fix their own name and phone.
+                    || (request.auth.uid == userId
+                        && request.resource.data.diff(resource.data).affectedKeys()
+                             .hasOnly(['full_name', 'phone', 'updated_at']));
+    }
+
+    // ── Sections ────────────────────────────────────────────────────────────
+    match /sections/{sectionId} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+
+    // ── Content ─────────────────────────────────────────────────────────────
+    match /content/{contentId} {
+      // Staff see everything. A student sees published items assigned to
+      // them by name or by section — the two queries the app makes. A parent
+      // sees published items (their app asks only for their child's).
+      allow read: if isStaff()
+                  || (isStudent() && resource.data.published == true && (
+                        request.auth.uid in resource.data.student_ids
+                        || me().section_id in resource.data.section_ids))
+                  || (isParent() && resource.data.published == true);
+
+      // A teacher writes only their own items, only of a type the admin
+      // allowed, and only assigned to sections they teach.
+      function teacherMayWrite() {
+        return isTeacher()
+               && request.resource.data.teacher_id == request.auth.uid
+               && can(request.resource.data.type)
+               && request.resource.data.section_ids.toSet()
+                    .difference(me().section_ids.toSet()).size() == 0;
+      }
+
+      allow create: if isAdmin() || teacherMayWrite();
+      allow update: if isAdmin()
+                    || (teacherMayWrite() && resource.data.teacher_id == request.auth.uid);
+      allow delete: if isAdmin()
+                    || (isTeacher() && resource.data.teacher_id == request.auth.uid
+                        && can(resource.data.type));
+    }
+
+    // ── Submissions (results / grades) ──────────────────────────────────────
+    match /submissions/{submissionId} {
+      allow read: if isStaff()
+                  || (isStudent() && resource.data.student_id == request.auth.uid)
+                  || (isParent() && resource.data.student_id in me().children_ids);
+
+      // A student hands in once: the id is fixed ({contentId}_{uid}) and
+      // there is no update rule for students, so a second attempt fails.
+      //
+      // NOTE: the score is computed on the device. For a quiz that is fine;
+      // for a high-stakes exam, move marking into a Cloud Function and keep
+      // the answer key out of the content document (see SETUP.md).
+      allow create: if isStudent()
+                    && submissionId == request.resource.data.content_id + '_' + request.auth.uid
+                    && request.resource.data.student_id == request.auth.uid
+                    && request.resource.data.graded_by == 'auto'
+                    && request.resource.data.score >= 0
+                    && request.resource.data.score <= request.resource.data.total;
+
+      // Teachers with the Grades switch set or correct marks.
+      allow create, update: if can('grades');
+      allow delete: if isAdmin();
+    }
+
+    // ── Attendance ──────────────────────────────────────────────────────────
+    match /attendance/{recordId} {
+      allow read: if isStaff()
+                  || (isStudent() && resource.data.student_id == request.auth.uid)
+                  || (isParent() && resource.data.student_id in me().children_ids);
+
+      allow write: if isAdmin()
+                   || (can('attendance')
+                       && request.resource.data.section_id in me().section_ids);
+    }
+
+    // ── Conversations ───────────────────────────────────────────────────────
+    match /conversations/{conversationId} {
+      // `resource == null` lets the app open a thread that does not exist
+      // yet (a set-merge reads nothing, but be explicit).
+      // The admin can read every thread: the center is accountable for what
+      // its teachers write to parents. Say so in your privacy notice.
+      allow read: if isAdmin() || (signedIn()
+                  && (resource == null || request.auth.uid in resource.data.participant_ids));
+
+      // Created by the parent or by a teacher who may message. The two
+      // participants are fixed forever after.
+      allow create: if isAdmin() || (signedIn()
+                    && request.auth.uid in request.resource.data.participant_ids
+                    && request.resource.data.participant_ids.size() == 2
+                    && (isParent() || can('messages')));
+      allow update: if isAdmin() || (signedIn()
+                    && request.auth.uid in resource.data.participant_ids
+                    && unchanged('participant_ids')
+                    && (isParent() || can('messages')));
+      allow delete: if isAdmin();
+
+      match /messages/{messageId} {
+        allow read: if isAdmin() || (signedIn() && request.auth.uid in
+          get(/databases/$(database)/documents/conversations/$(conversationId)).data.participant_ids);
+        // getAfter: the first message is written in the same batch that
+        // creates the thread.
+        // (The admin exception exists for the demo-data button.)
+        allow create: if isAdmin() || signedIn()
+                      && request.resource.data.sender_id == request.auth.uid
+                      && request.auth.uid in
+                         getAfter(/databases/$(database)/documents/conversations/$(conversationId)).data.participant_ids;
+        allow update: if false;
+        allow delete: if isAdmin();
+      }
+    }
+
+    // ── Everything else ─────────────────────────────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

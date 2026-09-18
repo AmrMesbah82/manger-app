@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.apple.security.app-sandbox</key>
+	<true/>
+	<key>com.apple.security.cs.allow-jit</key>
+	<true/>
+	<!-- Flutter's debug VM service talks to the tool over a local socket. -->
+	<key>com.apple.security.network.server</key>
+	<true/>
+	<!-- REQUIRED. Without this the sandbox blocks every outbound connection
+	     ("Operation not permitted, errno = 1"): Firestore, Firebase Auth,
+	     Storage uploads and lesson videos all fail. `flutter create` does not
+	     add it. Same as wash_application. -->
+	<key>com.apple.security.network.client</key>
+	<true/>
+	<!-- REQUIRED for the teacher's "Upload file": the file picker opens an
+	     NSOpenPanel and the app may only read what the user chose. -->
+	<key>com.apple.security.files.user-selected.read-only</key>
+	<true/>
+	<!-- REQUIRED for firebase_auth: it keeps the session token in the
+	     Keychain, and a sandboxed app needs an access group for that, or
+	     sign-in fails with `[firebase_auth/keychain-error]`.
+
+	     $(AppIdentifierPrefix) resolves to the team ID, so the Runner target
+	     must have DEVELOPMENT_TEAM set (6PN5F8N7MA, same as wash — see
+	     project.pbxproj) and a valid Apple Development certificate must be in
+	     the login keychain. Check with:
+	       security find-identity -v -p codesigning -->
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)com.example.mangerPlus</string>
+	</array>
+</dict>
+</plist>

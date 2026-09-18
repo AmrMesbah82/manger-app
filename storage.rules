@@ -1,0 +1,47 @@
+rules_version = '2';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Manger Plus — Cloud Storage security rules
+//
+// Files live at content/{teacherUid}/{timestamp}_{name}. A teacher may write
+// only under their own uid, and only while their profile says they are an
+// active teacher (or the admin). Any signed-in account may READ: the download
+// URL is only ever handed to people the Firestore rules already let see the
+// content document.
+//
+// Deploy:  firebase deploy --only storage
+// ─────────────────────────────────────────────────────────────────────────────
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function profile() {
+      return firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isStaff() {
+      return request.auth != null
+             && profile().active == true
+             && profile().role in ['admin', 'teacher'];
+    }
+
+    match /content/{ownerUid}/{fileName} {
+      allow read: if request.auth != null;
+
+      allow create, update: if isStaff()
+                            && (request.auth.uid == ownerUid || profile().role == 'admin')
+                            // 500 MB — keep in step with AppConstants.maxUploadMb.
+                            && request.resource.size < 500 * 1024 * 1024
+                            && (request.resource.contentType.matches('video/.*')
+                                || request.resource.contentType.matches('image/.*')
+                                || request.resource.contentType == 'application/pdf');
+
+      allow delete: if isStaff()
+                    && (request.auth.uid == ownerUid || profile().role == 'admin');
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "4332200019",
+    "project_id": "manger-app-3aa3b",
+    "storage_bucket": "manger-app-3aa3b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:4332200019:android:44fcba0fc75de6ce78e6a6",
+        "android_client_info": {
+          "package_name": "com.example.manger_plus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwL3Qt3-fcnWicU5kaTGlS2q0JmKynFN8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

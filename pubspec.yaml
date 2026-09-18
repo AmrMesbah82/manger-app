@@ -1,5 +1,5 @@
 name: manger_plus
-description: "Manger Plus — learning center: admin & teacher console on desktop, student & parent apps on phone and tablet."
+description: "Learning center app for admins, teachers, students and parents: lessons, attendance and grades."
 publish_to: 'none'
 
 version: 1.0.0+1

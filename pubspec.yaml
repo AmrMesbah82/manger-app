@@ -54,6 +54,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
 
 flutter:
   uses-material-design: true
@@ -116,3 +117,26 @@ flutter:
           weight: 400
         - asset: assets/fonts/fonts_arabic/Almarai/Almarai-Bold.ttf
           weight: 700
+
+# App icon for every platform. Regenerate with:
+#   dart run flutter_launcher_icons
+flutter_launcher_icons:
+  image_path: "assets/app_icon/app_icon.png"
+  android: true
+  adaptive_icon_background: "#6C63FF"
+  adaptive_icon_foreground: "assets/app_icon/app_icon_foreground.png"
+  min_sdk_android: 23
+  ios: true
+  remove_alpha_ios: true
+  macos:
+    generate: true
+    image_path: "assets/app_icon/app_icon.png"
+  web:
+    generate: true
+    image_path: "assets/app_icon/app_icon.png"
+    background_color: "#6C63FF"
+    theme_color: "#6C63FF"
+  windows:
+    generate: true
+    image_path: "assets/app_icon/app_icon.png"
+    icon_size: 256

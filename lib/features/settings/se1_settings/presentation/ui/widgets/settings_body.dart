@@ -27,6 +27,7 @@ import 'package:manger_plus/features/onboarding/o2_authentication/domain/enums/u
 import 'package:manger_plus/features/onboarding/o2_authentication/presentation/controller/session_controller.dart';
 import 'package:manger_plus/generated/l10n.dart';
 import 'package:manger_plus/core/custom/111-app_svg_icon.dart';
+import 'package:manger_plus/core/custom/112-powered_by_footer.dart';
 
 class SettingsBody extends StatelessWidget {
   const SettingsBody({super.key});
@@ -184,6 +185,8 @@ class SettingsBody extends StatelessWidget {
               style: StyleText.fontSize12Weight400.copyWith(color: AppColors.secondaryText),
             ),
           ),
+          SizedBox(height: 8.h),
+          const PoweredByFooter(),
         ],
       );
     });

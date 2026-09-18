@@ -26,6 +26,7 @@ import 'package:manger_plus/features/onboarding/o2_authentication/presentation/c
 import 'package:manger_plus/features/onboarding/o2_authentication/presentation/ui/widgets/brand_mark.dart';
 import 'package:manger_plus/generated/l10n.dart';
 import 'package:manger_plus/core/custom/111-app_svg_icon.dart';
+import 'package:manger_plus/core/custom/112-powered_by_footer.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({super.key});
@@ -355,6 +356,8 @@ class _SignInForm extends StatelessWidget {
                 style: StyleText.fontSize12Weight400
                     .copyWith(color: AppColors.secondaryText),
               ),
+            SizedBox(height: 28.h),
+            const PoweredByFooter(),
           ],
         );
       },

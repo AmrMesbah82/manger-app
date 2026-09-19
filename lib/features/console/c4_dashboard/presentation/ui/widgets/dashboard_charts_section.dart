@@ -12,13 +12,18 @@
 ///
 /// LAYOUT
 /// ------
-/// Two by two on a wide console, one column under 1000px. The breakpoint is
-/// here rather than in the page because it is a property of THESE cards — a
-/// donut with a legend beside it stops being readable long before the page
-/// does.
+/// Two by two on a wide console. Under 1000px the cards stack — except the
+/// two DONUTS, which share a row: a ring with its legend beneath it is the one
+/// chart that still reads at half a tablet's width, where a bar chart's axis
+/// would be unlabelled mush. The breakpoint is here rather than in the page
+/// because it is a property of THESE cards.
+///
+/// The score bands are a BAR chart on a wide console and a DONUT on a tablet.
+/// Same four numbers; the shape that fits the space it is given.
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:manger_plus/core/custom/24-custom_chart_card.dart';
 import 'package:manger_plus/core/custom/26-custom_bar_chart_card.dart';
@@ -36,13 +41,21 @@ class DashboardChartsSection extends StatelessWidget {
   final DashboardState state;
 
   static const double _cardHeight = 290;
+
+  /// The tablet donut row. Short on purpose: a ring with its legend BESIDE it
+  /// needs the width it already has and none of the height a bar chart's axis
+  /// needs, so the pair is 210 tall rather than 290 — 20 padding, a 22 header,
+  /// a 14 gap and the 128 ring, and nothing spare. Stacking the legend under
+  /// the ring instead cost 90pt of empty card and shrank the ring — the ring
+  /// is the chart, so it gets the room.
+  static const double _donutRowHeight = 210;
   static const double _breakpoint = 1000;
 
   @override
   Widget build(BuildContext context) {
     final S s = S.of(context);
 
-    final Widget attendance = _attendanceDonut(context, s);
+    final Widget attendance = _attendanceDonut(context, s, compact: false);
     final Widget byDay = _attendanceByDay(context, s);
     final Widget bySection = _averageBySection(context, s);
     final Widget bands = _scoreBands(context, s);
@@ -52,13 +65,21 @@ class DashboardChartsSection extends StatelessWidget {
         if (c.maxWidth < _breakpoint) {
           return Column(
             children: <Widget>[
-              attendance,
-              const SizedBox(height: 16),
+              // TWO RINGS, ONE ROW. Side by side they read as the pair they
+              // are — how the days went, how the marks went — and they cost
+              // one row instead of two.
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(child: _attendanceDonut(context, s, compact: true)),
+                  SizedBox(width: 12.w),
+                  Expanded(child: _scoreBandsDonut(context, s)),
+                ],
+              ),
+              SizedBox(height: 16.h),
               byDay,
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               bySection,
-              const SizedBox(height: 16),
-              bands,
             ],
           );
         }
@@ -68,16 +89,16 @@ class DashboardChartsSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Expanded(flex: 2, child: attendance),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(flex: 3, child: byDay),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Expanded(flex: 3, child: bySection),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(flex: 2, child: bands),
               ],
             ),
@@ -91,19 +112,24 @@ class DashboardChartsSection extends StatelessWidget {
   //
   // A donut rather than bars: these four add up to a whole (every record is
   // exactly one status), which is the one case a ring is the honest shape.
-  Widget _attendanceDonut(BuildContext context, S s) {
+  Widget _attendanceDonut(BuildContext context, S s, {required bool compact}) {
     final Map<AttendanceStatus, int> counts = state.attendanceByStatus;
     final int total = counts.values.fold<int>(0, (int a, int b) => a + b);
 
     return DonutChartCard(
       title: s.attendanceByStatus,
-      height: _cardHeight,
+      height: (compact ? _donutRowHeight : _cardHeight).h,
       expandChild: true,
-      chartSize: 140,
-      ringWidth: 26,
+      // Half a tablet row: legend on the left, a BIGGER ring on the right, in
+      // a shorter card.
+      chartSize: compact ? 128 : 140,
+      ringWidth: compact ? 30 : 26,
       legendBelow: false,
       centerValue: total == 0 ? '—' : '${state.attendanceRate}%',
-      centerLabel: s.attendanceRateLabel,
+      // No label inside the compact ring: the hole is ~68pt across there and
+      // "Attendance rate" would wrap into three lines inside the doughnut.
+      // The card's own title already says what the ring is.
+      centerLabel: compact ? null : s.attendanceRateLabel,
       emptyMessage: s.noAttendanceYet,
       sections: <ChartData>[
         for (final MapEntry<AttendanceStatus, int> e in counts.entries)
@@ -127,7 +153,7 @@ class DashboardChartsSection extends StatelessWidget {
 
     return BarChartCard(
       title: s.attendanceByDay,
-      height: _cardHeight,
+      height: _cardHeight.h,
       expandChild: true,
       chartHeight: 210,
       barWidth: 14,
@@ -150,7 +176,7 @@ class DashboardChartsSection extends StatelessWidget {
 
     return HorizontalBarChartCard(
       title: s.averageBySection,
-      height: _cardHeight,
+      height: _cardHeight.h,
       expandChild: true,
       maxX: 100,
       suffix: '%',
@@ -184,7 +210,7 @@ class DashboardChartsSection extends StatelessWidget {
 
     return BarChartCard(
       title: s.scoreBands,
-      height: _cardHeight,
+      height: _cardHeight.h,
       expandChild: true,
       chartHeight: 210,
       barWidth: 26,
@@ -197,6 +223,46 @@ class DashboardChartsSection extends StatelessWidget {
             value: bands[i].toDouble(),
             color: colors[i],
           ),
+      ],
+    );
+  }
+
+  // ── 4b. Score bands, as a ring ──────────────────────────────────────────
+  //
+  // The same four numbers as [_scoreBands], drawn as a donut for the tablet
+  // row. Bands are parts of one whole — every marked result is in exactly one
+  // of them — so a ring is as honest here as it is for attendance, and it
+  // survives a narrow column that a four-bar axis does not.
+  Widget _scoreBandsDonut(BuildContext context, S s) {
+    final List<int> bands = state.scoreBands;
+    final List<String> labels = <String>[s.band0, s.band50, s.band65, s.band80];
+    final List<Color> colors = <Color>[
+      const Color(0xffEF4444),
+      const Color(0xffF59E0B),
+      const Color(0xff3B82F6),
+      const Color(0xff10B981),
+    ];
+    final int total = bands.fold<int>(0, (int a, int b) => a + b);
+
+    return DonutChartCard(
+      title: s.scoreBands,
+      height: _donutRowHeight.h,
+      expandChild: true,
+      chartSize: 128,
+      ringWidth: 30,
+      legendBelow: false,
+      // A COUNT in the middle, not a percentage: the ring already shows the
+      // shares, and a second percentage in the hole would read as one of them.
+      centerValue: total == 0 ? '—' : '$total',
+      emptyMessage: s.noResultsYet,
+      sections: <ChartData>[
+        for (int i = 0; i < bands.length; i++)
+          if (bands[i] > 0)
+            ChartData(
+              label: labels[i],
+              value: bands[i].toDouble(),
+              color: colors[i],
+            ),
       ],
     );
   }
@@ -227,11 +293,11 @@ class DashboardChartsEmpty extends StatelessWidget {
     return ChartCard(
       title: s.nothingToChart,
       caption: s.nothingToChartSub,
-      height: 220,
+      height: 220.h,
       child: Center(
         child: AppIcon(
           Icons.insights_rounded,
-          size: 56,
+          size: 56.sp,
           color: AppColors.secondaryText.withOpacity(0.35),
         ),
       ),

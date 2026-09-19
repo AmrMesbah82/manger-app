@@ -9,11 +9,16 @@
 
 import 'package:dartz/dartz.dart' hide State;
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import 'package:manger_plus/core/custom/1-custom_dropdown.dart';
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
+import 'package:manger_plus/core/helper/main_helper/platform_helper.dart';
 import 'package:manger_plus/core/network/app_failure.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/data/repository/academy_repository.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/learning_content.dart';
@@ -124,78 +129,157 @@ class _GradesViewState extends State<_GradesView> {
                 });
               }
 
-              // Narrower list on a tablet in portrait so the results keep room.
-              final double listWidth =
-                  MediaQuery.sizeOf(context).width < 1000 ? 250 : 320;
-              return Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  SizedBox(
-                    width: listWidth,
-                    child: ListView.separated(
-                      itemCount: items.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 8),
-                      itemBuilder: (BuildContext context, int i) {
-                        final LearningContent c = items[i];
-                        final bool active = c.id == _selectedId;
-                        return Surface(
-                          color: active ? AppColors.primary.withOpacity(0.1) : null,
-                          padding: const EdgeInsets.all(14),
-                          onTap: () => _select(c),
-                          child: Row(
-                            children: <Widget>[
-                              ContentTypeIcon(type: c.type, size: 38),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(c.title,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: StyleText.fontSize14Weight600),
-                                    Text(
-                                      '${c.type.label(context)} · ${s.pointsTotal(c.totalPoints.toStringAsFixed(0))}',
-                                      style: StyleText.fontSize12Weight400
-                                          .copyWith(color: AppColors.secondaryText),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+              final Widget results = selected == null || _submissions == null
+                  ? const AppLoading()
+                  : StreamBuilder<List<Submission>>(
+                      stream: _submissions,
+                      builder: (BuildContext context, AsyncSnapshot<List<Submission>> sub) {
+                        if (sub.hasError) {
+                          return AppErrorView(
+                              message: AppFailure.from(sub.error!).message(context));
+                        }
+                        if (!sub.hasData) return const AppLoading();
+                        return _ResultsPanel(
+                          content: selected,
+                          submissions: sub.data!,
+                          roster: students
+                              .where((AppUser u) => selected.isAssignedTo(u))
+                              .toList(),
                         );
                       },
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: selected == null || _submissions == null
-                        ? const AppLoading()
-                        : StreamBuilder<List<Submission>>(
-                            stream: _submissions,
-                            builder: (BuildContext context, AsyncSnapshot<List<Submission>> sub) {
-                              if (sub.hasError) {
-                                return AppErrorView(
-                                    message: AppFailure.from(sub.error!).message(context));
-                              }
-                              if (!sub.hasData) return const AppLoading();
-                              return _ResultsPanel(
-                                content: selected,
-                                submissions: sub.data!,
-                                roster: students
-                                    .where((AppUser u) => selected.isAssignedTo(u))
-                                    .toList(),
-                              );
-                            },
-                          ),
-                  ),
-                ],
+                    );
+
+              return LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints c) {
+                  // TWO PANES ARE A DESKTOP IDEA (19/9/2026).
+                  //
+                  // A 320pt list of assessments beside the results is right on
+                  // a wide window and wrong on a tablet: it took a third of
+                  // the glass and left the results so narrow that a student's
+                  // name broke into four lines and "17 Sep, 10:44" wrapped
+                  // mid-time. In a tablet layout the list becomes the app's
+                  // one dropdown at the top and the results get the whole
+                  // width.
+                  if (PlatformHelper.isTabletLayout(context, width: c.maxWidth)) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        _AssessmentDropdown(
+                          items: items,
+                          selected: selected,
+                          onSelected: _select,
+                        ),
+                        SizedBox(height: 12.h),
+                        Expanded(child: results),
+                      ],
+                    );
+                  }
+
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      SizedBox(
+                        width: c.maxWidth < 1200 ? 250.w : 320.w,
+                        child: ListView.separated(
+                          itemCount: items.length,
+                          separatorBuilder: (_, __) => SizedBox(height: 8.h),
+                          itemBuilder: (BuildContext context, int i) {
+                            final LearningContent item = items[i];
+                            final bool active = item.id == _selectedId;
+                            return Surface(
+                              color: active ? AppColors.primary.withOpacity(0.1) : null,
+                              padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 14.sp),
+                              onTap: () => _select(item),
+                              child: Row(
+                                children: <Widget>[
+                                  ContentTypeIcon(type: item.type, size: 38.sp),
+                                  SizedBox(width: 10.w),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(item.title,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: StyleText.fontSize14Weight600),
+                                        Text(
+                                          '${item.type.label(context)} · ${s.pointsTotal(item.totalPoints.toStringAsFixed(0))}',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: StyleText.fontSize12Weight400
+                                              .copyWith(color: AppColors.secondaryText),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(width: 20.w),
+                      Expanded(child: results),
+                    ],
+                  );
+                },
               );
             },
           );
         },
       ),
+    );
+  }
+}
+
+/// The assessment list, as the app's one dropdown.
+///
+/// The tablet face of the left-hand list: same items, same selection, a
+/// fortieth of the space. Each row carries its own type glyph, so the list
+/// still reads as exams-and-quizzes rather than as a list of strings.
+class _AssessmentDropdown extends StatelessWidget {
+  const _AssessmentDropdown({
+    required this.items,
+    required this.selected,
+    required this.onSelected,
+  });
+
+  final List<LearningContent> items;
+  final LearningContent? selected;
+  final ValueChanged<LearningContent> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final S s = S.of(context);
+
+    return CustomDropdown<String>(
+      value: selected?.id,
+      hint: s.assessment,
+      // Design pixels — the dropdown scales it.
+      height: 46,
+      borderRadius: AppRadius.fieldR,
+      fillColor: AppColors.card,
+      // No prefix icon: the trigger already draws the SELECTED ROW — its own
+      // type glyph and its own label — so a prefix put the glyph on screen
+      // twice.
+      valueStyle: StyleText.fontSize14Weight600,
+      items: <DropdownItem<String>>[
+        for (final LearningContent item in items)
+          DropdownItem<String>(
+            value: item.id,
+            label:
+                '${item.title}  ·  ${s.pointsTotal(item.totalPoints.toStringAsFixed(0))}',
+            leading: ContentTypeIcon(type: item.type, size: 20.sp),
+          ),
+      ],
+      onChanged: (String id) {
+        for (final LearningContent item in items) {
+          if (item.id == id) {
+            onSelected(item);
+            return;
+          }
+        }
+      },
     );
   }
 }
@@ -227,28 +311,49 @@ class _ResultsPanel extends StatelessWidget {
         : submissions.fold<double>(0, (double a, Submission x) => a + x.percent) /
             submissions.length;
 
+    final List<Widget> stats = <Widget>[
+      _Stat(label: s.submitted, value: '${submissions.length}'),
+      SizedBox(width: 20.w),
+      _Stat(label: s.missing, value: '${missing.length}'),
+      SizedBox(width: 20.w),
+      _Stat(
+        label: s.average,
+        value: submissions.isEmpty ? '—' : '${average.round()}%',
+        color: submissions.isEmpty ? null : gradeColor(average),
+      ),
+    ];
+
     return Surface(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 16.sp),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: Text(content.title, style: StyleText.fontSize18Weight600),
-              ),
-              _Stat(label: s.submitted, value: '${submissions.length}'),
-              const SizedBox(width: 20),
-              _Stat(label: s.missing, value: '${missing.length}'),
-              const SizedBox(width: 20),
-              _Stat(
-                label: s.average,
-                value: submissions.isEmpty ? '—' : '${average.round()}%',
-                color: submissions.isEmpty ? null : gradeColor(average),
-              ),
-            ],
+          LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints c) {
+              final Widget title = Text(
+                content.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: StyleText.fontSize18Weight600,
+              );
+              // Three numbers and a title do not share a narrow line: the
+              // title wins the first line and the numbers take the second.
+              if (c.maxWidth < 560) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    title,
+                    SizedBox(height: 10.h),
+                    Row(children: stats),
+                  ],
+                );
+              }
+              return Row(
+                children: <Widget>[Expanded(child: title), ...stats],
+              );
+            },
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           Expanded(
             child: ListView(
               children: <Widget>[
@@ -260,7 +365,7 @@ class _ResultsPanel extends StatelessWidget {
                   ),
                 if (missing.isNotEmpty) ...<Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(top: 12, bottom: 8),
+                    padding: EdgeInsets.only(top: 12.h, bottom: 8.h),
                     child: Text(s.notSubmittedYet, style: StyleText.fontSize13Weight600),
                   ),
                   for (final AppUser u in missing)
@@ -313,66 +418,115 @@ class _ResultRow extends StatelessWidget {
   final Submission? submission;
   final VoidCallback onEdit;
 
+  /// Below this the row is two lines: who on top, the facts underneath.
+  ///
+  /// FOUR COLUMNS NEED ROOM (19/9/2026). Name, date, state and score side by
+  /// side is a table row, and a table row in a 350pt panel is what turned
+  /// "Youssef Mahmoud" into four lines of three letters. The pieces are the
+  /// same in both shapes — only how they are stacked changes.
+  static const double _wideRow = 700;
+
   @override
   Widget build(BuildContext context) {
     final S s = S.of(context);
     final Submission? x = submission;
+
+    final Widget who = Row(
+      children: <Widget>[
+        AppAvatar(name: name, size: 34),
+        SizedBox(width: 12.w),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: StyleText.fontSize14Weight600,
+              ),
+              if (x != null && x.feedback.isNotEmpty)
+                Text(
+                  x.feedback,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: StyleText.fontSize12Weight400
+                      .copyWith(color: AppColors.secondaryText),
+                ),
+            ],
+          ),
+        ),
+      ],
+    );
+
+    final Widget when = Text(
+      x == null ? '—' : AppDates.dateTime(context, x.submittedAt),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      softWrap: false,
+      style: StyleText.fontSize12Weight400.copyWith(color: AppColors.secondaryText),
+    );
+
+    final Widget state = x == null
+        ? StatusPill(label: s.missing, color: AppColors.orange)
+        : StatusPill(
+            label: x.gradedByTeacher ? s.gradedByTeacher : s.autoMarked,
+            color: x.gradedByTeacher ? AppColors.primary : AppColors.secondaryText,
+          );
+
+    final Widget? score = x == null
+        ? null
+        : Text(
+            '${_fmt(x.score)} / ${_fmt(x.total)}  ·  ${x.percent.round()}%',
+            maxLines: 1,
+            softWrap: false,
+            textAlign: TextAlign.end,
+            style: StyleText.fontSize13Weight600.copyWith(color: gradeColor(x.percent)),
+          );
+
+    final Widget edit = IconButton(
+      tooltip: x == null ? s.enterGrade : s.editGrade,
+      onPressed: onEdit,
+      icon: AppIcon(Icons.edit_note_rounded, color: AppColors.primary, size: 22.sp),
+    );
+
     return Container(
-      margin: const EdgeInsets.only(bottom: 6),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      margin: EdgeInsets.only(bottom: 6.h),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 10.h),
       decoration: BoxDecoration(
         color: AppColors.background,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: AppRadius.containerR,
       ),
-      child: Row(
-        children: <Widget>[
-          AppAvatar(name: name, size: 34),
-          const SizedBox(width: 12),
-          Expanded(
-            flex: 3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints c) {
+          if (c.maxWidth >= _wideRow) {
+            return Row(
               children: <Widget>[
-                Text(name, style: StyleText.fontSize14Weight600),
-                if (x != null && x.feedback.isNotEmpty)
-                  Text(
-                    x.feedback,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: StyleText.fontSize12Weight400.copyWith(color: AppColors.secondaryText),
-                  ),
+                Expanded(flex: 3, child: who),
+                Expanded(flex: 2, child: when),
+                state,
+                SizedBox(width: 14.w),
+                if (score != null) SizedBox(width: 110.w, child: score),
+                edit,
               ],
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              x == null ? '—' : AppDates.dateTime(context, x.submittedAt),
-              style: StyleText.fontSize12Weight400.copyWith(color: AppColors.secondaryText),
-            ),
-          ),
-          if (x != null) ...<Widget>[
-            StatusPill(
-              label: x.gradedByTeacher ? s.gradedByTeacher : s.autoMarked,
-              color: x.gradedByTeacher ? AppColors.primary : AppColors.secondaryText,
-            ),
-            const SizedBox(width: 14),
-            SizedBox(
-              width: 110,
-              child: Text(
-                '${_fmt(x.score)} / ${_fmt(x.total)}  ·  ${x.percent.round()}%',
-                textAlign: TextAlign.end,
-                style: StyleText.fontSize13Weight600.copyWith(color: gradeColor(x.percent)),
+            );
+          }
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Row(children: <Widget>[Expanded(child: who), edit]),
+              SizedBox(height: 6.h),
+              Row(
+                children: <Widget>[
+                  state,
+                  SizedBox(width: 10.w),
+                  Expanded(child: when),
+                  if (score != null) ...<Widget>[SizedBox(width: 10.w), score],
+                ],
               ),
-            ),
-          ] else
-            StatusPill(label: s.missing, color: AppColors.orange),
-          IconButton(
-            tooltip: x == null ? s.enterGrade : s.editGrade,
-            onPressed: onEdit,
-            icon: AppIcon(Icons.edit_note_rounded, color: AppColors.primary),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }
@@ -472,7 +626,7 @@ class _GradeDialogState extends State<_GradeDialog> {
         children: <Widget>[
           if (_error != null) ...<Widget>[
             InfoBanner.error(_error!),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
           ],
           TextField(
             controller: _score,
@@ -480,17 +634,17 @@ class _GradeDialogState extends State<_GradeDialog> {
             decoration: InputDecoration(
               labelText: s.score,
               suffixText: '/ ${_total.toStringAsFixed(0)}',
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              border: OutlineInputBorder(borderRadius: AppRadius.fieldR),
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           TextField(
             controller: _feedback,
             maxLines: 3,
             decoration: InputDecoration(
               labelText: s.feedback,
               hintText: s.feedbackHint,
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              border: OutlineInputBorder(borderRadius: AppRadius.fieldR),
             ),
           ),
         ],

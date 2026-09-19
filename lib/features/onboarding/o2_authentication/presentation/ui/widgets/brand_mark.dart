@@ -47,7 +47,7 @@ class BrandMark extends StatelessWidget {
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: AppColors.primary.withOpacity(0.35),
-            blurRadius: 18,
+            blurRadius: 18.sp,
             offset: const Offset(0, 8),
           ),
         ],

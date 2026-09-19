@@ -18,6 +18,8 @@ import 'package:manger_plus/core/custom/11-custom_confirm_dialog.dart';
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/network/app_failure.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/data/repository/academy_repository.dart';
 import 'package:manger_plus/features/academy/ac1_core/data/utils/academy_utils.dart';
@@ -79,7 +81,7 @@ class AssessmentIntroScreen extends StatelessWidget {
                     colors: <Color>[color, Color.lerp(color, Colors.black, 0.3)!],
                   ),
                 ),
-                padding: EdgeInsets.fromLTRB(24.w, 90.h, 24.w, 20.h),
+                padding: EdgeInsets.fromLTRB(AppPadding.h, 90.h, AppPadding.h, 20.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -105,7 +107,7 @@ class AssessmentIntroScreen extends StatelessWidget {
             ),
           ),
           SliverPadding(
-            padding: EdgeInsets.all(20.r),
+            padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 20.r),
             sliver: SliverList(
               delegate: SliverChildListDelegate(<Widget>[
                 if (c.description.isNotEmpty) ...<Widget>[
@@ -315,11 +317,11 @@ class _AssessmentTakeScreenState extends State<AssessmentTakeScreen> {
           actions: <Widget>[
             if (_left != null)
               Container(
-                margin: EdgeInsetsDirectional.only(end: 12.w),
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+                margin: EdgeInsetsDirectional.only(end: AppPadding.h),
+                padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 6.h),
                 decoration: BoxDecoration(
                   color: (hurry ? AppColors.red : color).withOpacity(0.12),
-                  borderRadius: BorderRadius.circular(20.r),
+                  borderRadius: AppRadius.buttonR,
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -353,7 +355,7 @@ class _AssessmentTakeScreenState extends State<AssessmentTakeScreen> {
                   height: 52.h,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                    padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 10.h),
                     itemCount: c.questions.length,
                     separatorBuilder: (_, __) => SizedBox(width: 8.w),
                     itemBuilder: (BuildContext context, int i) {
@@ -388,7 +390,7 @@ class _AssessmentTakeScreenState extends State<AssessmentTakeScreen> {
                     itemBuilder: (BuildContext context, int i) {
                       final Question q = c.questions[i];
                       return ListView(
-                        padding: EdgeInsets.all(20.r),
+                        padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 20.r),
                         children: <Widget>[
                           Text(s.questionNofM('${i + 1}', '${c.questions.length}'),
                               style: StyleText.fontSize13Weight600.copyWith(color: color)),
@@ -416,7 +418,7 @@ class _AssessmentTakeScreenState extends State<AssessmentTakeScreen> {
                 SafeArea(
                   top: false,
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(20.w, 8.h, 20.w, 12.h),
+                    padding: EdgeInsets.fromLTRB(AppPadding.h, 8.h, AppPadding.h, 12.h),
                     child: Row(
                       children: <Widget>[
                         if (_index > 0)
@@ -480,15 +482,15 @@ class _OptionCard extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 10.h),
       child: Material(
         color: highlighted ? accent.withOpacity(0.1) : AppColors.card,
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: AppRadius.containerR,
         child: InkWell(
-          borderRadius: BorderRadius.circular(16.r),
+          borderRadius: AppRadius.containerR,
           onTap: onTap,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 160),
-            padding: EdgeInsets.all(14.r),
+            padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 14.r),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.r),
+              borderRadius: AppRadius.containerR,
               border: Border.all(
                 color: highlighted ? accent : AppColors.borderGrey.withOpacity(0.35),
                 width: highlighted ? 2 : 1,
@@ -557,14 +559,14 @@ class AssessmentResultScreen extends StatelessWidget {
         child: ConstrainedBox(
           constraints: BoxConstraints(maxWidth: 640.w),
           child: ListView(
-            padding: EdgeInsets.all(20.r),
+            padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 20.r),
             children: <Widget>[
               if (timeUp) ...<Widget>[
                 InfoBanner(message: s.timeUp, icon: Icons.timer_off_outlined, color: AppColors.orange),
                 SizedBox(height: 16.h),
               ],
               Surface(
-                padding: EdgeInsets.all(24.r),
+                padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 24.r),
                 child: Column(
                   children: <Widget>[
                     SizedBox(
@@ -655,7 +657,7 @@ class _ReviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool right = answer == question.correctIndex;
     return Surface(
-      padding: EdgeInsets.all(16.r),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 16.r),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[

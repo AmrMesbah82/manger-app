@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/core/custom/111-app_svg_icon.dart';
 
@@ -149,9 +151,9 @@ class CustomDropdown<T> extends StatefulWidget {
 
   /// Corner radius for both the trigger and the open overlay.
   ///
-  /// Optional — when null it defaults to `BorderRadius.circular(4.r)`, so every
+  /// Optional — when null it defaults to `AppRadius.fieldR`, so every
   /// existing dropdown keeps its current look. Pass a value to override (e.g.
-  /// `BorderRadius.circular(8.r)`).
+  /// `AppRadius.fieldR`).
   final BorderRadius? borderRadius;
   final TextStyle? valueStyle;
 
@@ -291,7 +293,7 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>>
         items: widget.items,
         maxHeight: widget.maxOverlayHeight ?? 240.sp,
         itemHeight: widget.itemHeight ?? 36.sp,
-        borderRadius: widget.borderRadius ?? BorderRadius.circular(4.r),
+        borderRadius: widget.borderRadius ?? AppRadius.fieldR,
         elevation: widget.overlayElevation,
         itemStyle: widget.itemStyle,
         showDivider: widget.showDivider,
@@ -554,7 +556,7 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>>
 
   Widget _buildTrigger(BuildContext context) {
     final hasError = widget.errorText != null && widget.errorText!.isNotEmpty;
-    final radius = widget.borderRadius ?? BorderRadius.circular(4.r);
+    final radius = widget.borderRadius ?? AppRadius.fieldR;
 
     // With [alwaysShowHint] the trigger renders as if nothing were selected —
     // InputDecorator only draws `hintText` while it believes it is empty, so
@@ -577,7 +579,7 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>>
         // button sets its own, and the two role screens that set
         // 8.sp/12.sp meant those numbers.
         contentPadding: widget.triggerPadding ??
-            EdgeInsets.symmetric(horizontal: 12.sp, vertical: 10.sp),
+            EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 10.sp),
         filled: true,
         fillColor: widget.enabled
             ? (widget.fillColor ?? AppColors.background)
@@ -614,7 +616,7 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>>
         prefixIcon: widget.prefixIcon != null
             ? Padding(
                 padding: widget.prefixIconPadding ??
-                    EdgeInsets.only(left: 12.sp, right: 8.sp),
+                    EdgeInsets.only(left: AppPadding.h,right: AppPadding.h),
                 child: widget.prefixIcon,
               )
             : null,
@@ -627,7 +629,7 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>>
             ? null
             : Padding(
                 padding: widget.suffixIconPadding ??
-                    EdgeInsets.only(left: 8.sp, right: 12.sp),
+                    EdgeInsets.only(left: AppPadding.h,right: AppPadding.h),
                 child: widget.suffixIcon ??
                     AnimatedRotation(
                       turns: _isOpen ? 0.5 : 0,
@@ -908,7 +910,7 @@ class _DropdownItemTileState<T> extends State<_DropdownItemTile<T>> {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 120),
           height: widget.height,
-          padding: EdgeInsets.symmetric(horizontal: 12.sp),
+          padding: EdgeInsets.symmetric(horizontal: AppPadding.h),
           color: widget.isSelected
               ? AppColors.primary
               : (_hovered && !isDisabled)

@@ -12,6 +12,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/learning_content.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/submission.dart';
@@ -34,16 +36,16 @@ class FeatureCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: width ?? 240.w,
-        padding: EdgeInsets.all(16.r),
+        padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 16.r),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(22.r),
+          borderRadius: AppRadius.containerR,
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: <Color>[c, Color.lerp(c, Colors.black, 0.25)!],
           ),
           boxShadow: <BoxShadow>[
-            BoxShadow(color: c.withOpacity(0.35), blurRadius: 16, offset: const Offset(0, 8)),
+            BoxShadow(color: c.withOpacity(0.35), blurRadius: 16.sp, offset: const Offset(0, 8)),
           ],
         ),
         child: Stack(
@@ -58,10 +60,10 @@ class FeatureCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                  padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 4.h),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.22),
-                    borderRadius: BorderRadius.circular(20.r),
+                    borderRadius: AppRadius.containerR,
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -132,10 +134,10 @@ class ContentRow extends StatelessWidget {
 
     return Surface(
       onTap: onTap,
-      padding: EdgeInsets.all(12.r),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 12.r),
       child: Row(
         children: <Widget>[
-          ContentTypeIcon(type: c.type, size: 50),
+          ContentTypeIcon(type: c.type, size: 50.sp),
           SizedBox(width: 12.w),
           Expanded(
             child: Column(
@@ -191,10 +193,10 @@ class _Pill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 5.h),
       decoration: BoxDecoration(
         color: color.withOpacity(0.12),
-        borderRadius: BorderRadius.circular(20.r),
+        borderRadius: AppRadius.buttonR,
       ),
       child: Text(text, style: StyleText.fontSize12Weight700.copyWith(color: color)),
     );
@@ -218,12 +220,12 @@ class CategoryTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: AppColors.card,
-      borderRadius: BorderRadius.circular(18.r),
+      borderRadius: AppRadius.containerR,
       child: InkWell(
-        borderRadius: BorderRadius.circular(18.r),
+        borderRadius: AppRadius.containerR,
         onTap: onTap,
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 8.w),
+          padding: EdgeInsets.symmetric(vertical: 10.h,horizontal: AppPadding.h),
           // The grid cell has a fixed aspect ratio; scaleDown means the
           // content shrinks a hair instead of overflowing when text scaling
           // or a larger icon would not fit.

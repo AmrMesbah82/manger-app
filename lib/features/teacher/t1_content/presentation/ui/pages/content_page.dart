@@ -9,6 +9,7 @@
 
 import 'package:dartz/dartz.dart' hide State;
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -16,6 +17,8 @@ import 'package:manger_plus/core/custom/11-custom_confirm_dialog.dart';
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/network/app_failure.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/data/repository/academy_repository.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/learning_content.dart';
@@ -160,7 +163,7 @@ class _ContentViewState extends State<_ContentView> {
                   PopupMenuButton<ContentType>(
                     tooltip: s.add,
                     position: PopupMenuPosition.under,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                    shape: RoundedRectangleBorder(borderRadius: AppRadius.fieldR),
                     onSelected: (ContentType t) =>
                         _openEditor(type: t, sections: sections, students: students),
                     itemBuilder: (BuildContext context) => <PopupMenuEntry<ContentType>>[
@@ -169,8 +172,8 @@ class _ContentViewState extends State<_ContentView> {
                           value: t,
                           child: Row(
                             children: <Widget>[
-                              ContentTypeIcon(type: t, size: 32),
-                              const SizedBox(width: 10),
+                              ContentTypeIcon(type: t, size: 32.sp),
+                              SizedBox(width: 10.w),
                               Text(t.label(context), style: StyleText.fontSize14Weight500),
                             ],
                           ),
@@ -196,7 +199,7 @@ class _ContentViewState extends State<_ContentView> {
                     labelOf: (ContentType t) => t.plural(context),
                     onSelected: (ContentType? t) => setState(() => _typeFilter = t),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16.h),
                   Expanded(
                     child: StreamBuilder<List<LearningContent>>(
                       stream: _content,
@@ -289,7 +292,7 @@ class _ContentCard extends StatelessWidget {
     final LearningContent c = content;
 
     return Surface(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 16.sp),
       onTap: canEdit ? onEdit : null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -297,8 +300,8 @@ class _ContentCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ContentTypeIcon(type: c.type, size: 46),
-              const SizedBox(width: 12),
+              ContentTypeIcon(type: c.type, size: 46.sp),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -325,7 +328,7 @@ class _ContentCard extends StatelessWidget {
               if (!c.published) StatusPill(label: s.draft, color: AppColors.secondaryText),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           // Every card is the same height (see TileGrid.tileHeight), and the
           // meta rows are the part that varies — a due date here, a question
           // count there. Giving them the leftover space is what lets the
@@ -418,8 +421,8 @@ class _CardAction extends StatelessWidget {
       onPressed: onPressed,
       padding: EdgeInsets.zero,
       visualDensity: VisualDensity.compact,
-      constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
-      iconSize: 19,
+      constraints: BoxConstraints(minWidth: 32.w, minHeight: 32.h),
+      iconSize: 19.sp,
       icon: AppIcon(icon, color: color),
     );
   }
@@ -436,11 +439,11 @@ class _Meta extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color c = color ?? AppColors.secondaryText;
     return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
+      padding: EdgeInsets.only(bottom: 4.h),
       child: Row(
         children: <Widget>[
-          AppIcon(icon, size: 15, color: c),
-          const SizedBox(width: 6),
+          AppIcon(icon, size: 15.sp, color: c),
+          SizedBox(width: 6.w),
           Expanded(
             child: Text(
               text,

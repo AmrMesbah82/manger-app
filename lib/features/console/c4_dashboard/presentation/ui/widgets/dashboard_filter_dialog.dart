@@ -23,6 +23,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:manger_plus/core/custom/57-custom_dialog_manager.dart';
@@ -74,26 +75,26 @@ class _DashboardFilterForm extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             _Label(s.periodLabel),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             CustomSegmentedTabs(
               tabs: periodLabels,
               equalWidth: true,
               selectedIndex: periods.indexOf(state.period),
               onTabSelected: (int i) => cubit.selectPeriod(periods[i]),
             ),
-            const SizedBox(height: 22),
+            SizedBox(height: 22.h),
             _SwitchRow(
               label: s.onlyBelowPass,
               value: state.onlyBelowPass,
               onChanged: cubit.toggleOnlyBelowPass,
             ),
-            const SizedBox(height: 14),
+            SizedBox(height: 14.h),
             _SwitchRow(
               label: s.onlyAbsences,
               value: state.onlyAbsences,
               onChanged: cubit.toggleOnlyAbsences,
             ),
-            const SizedBox(height: 14),
+            SizedBox(height: 14.h),
             _SwitchRow(
               label: s.charts,
               value: state.showCharts,
@@ -137,7 +138,7 @@ class _SwitchRow extends StatelessWidget {
         Expanded(
           child: Text(label, style: StyleText.fontSize14Weight500),
         ),
-        const SizedBox(width: 12),
+        SizedBox(width: 12.w),
         DefaultSwitchButton(value: value, onChanged: onChanged),
       ],
     );

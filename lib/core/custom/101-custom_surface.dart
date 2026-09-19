@@ -31,11 +31,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manger_plus/core/custom/104-custom_motion.dart';
 import 'package:manger_plus/core/custom/32-custom_svg.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 
-/// Standard corner radius. Every card, control and chip in the app uses it, so
-/// it lives in one place rather than as an `8` typed into forty build methods.
-const double kAppRadius = 8;
+/// Standard CONTAINER corner radius, kept as an alias so the call sites that
+/// already read `kAppRadius` do not all have to change. The number itself
+/// lives in [AppRadius] with the other two — see that file for the rule.
+const double kAppRadius = AppRadius.container;
 
 /// Radius of the app's icon badge — the circle an icon lives in.
 ///
@@ -136,7 +139,7 @@ class AppCard extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: padding ?? EdgeInsets.all(20.sp),
+      padding: padding ?? EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 20.sp),
       decoration: BoxDecoration(
         color: gradient == null ? (color ?? AppColors.card) : null,
         gradient: gradient,
@@ -382,10 +385,8 @@ class AppStatusChip extends StatelessWidget {
     final Color content = active ? readableOn(color) : readableInk(color);
 
     final Widget chip = Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: dense ? 8.sp : 12.sp,
-        vertical: dense ? 4.sp : 8.sp,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h,
+        vertical: dense ? 4.sp : 8.sp),
       decoration: BoxDecoration(
         color: background,
         borderRadius: BorderRadius.circular(kAppRadius.sp),
@@ -414,12 +415,12 @@ class AppStatusChip extends StatelessWidget {
           if (count != null) ...<Widget>[
             SizedBox(width: 8.sp),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 6.sp, vertical: 1.sp),
+              padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 1.sp),
               decoration: BoxDecoration(
                 color: active
                     ? AppColors.white.withOpacity(0.25)
                     : color.withOpacity(0.25),
-                borderRadius: BorderRadius.circular(20.r),
+                borderRadius: AppRadius.buttonR,
               ),
               child: Text(
                 '$count',
@@ -484,7 +485,7 @@ class AppStatCard extends StatelessWidget {
     // REMOVED 4/9/2026: this took a `tint` and gave each stat card's badge its
     // own colour. Badges are brand circles now — see [AppIconBadge].
     final Widget card = AppCard(
-      padding: EdgeInsets.all(18.sp),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 18.sp),
       crossAxisAlignment: CrossAxisAlignment.start,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

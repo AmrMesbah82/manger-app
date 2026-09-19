@@ -30,6 +30,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:manger_plus/core/theme/app_colors.dart';
 
@@ -87,7 +88,7 @@ class _BrandBackdropState extends State<BrandBackdrop>
                 children: <Widget>[
                   _DriftingBlob(
                     animation: _loop,
-                    size: 320,
+                    size: 320.sp,
                     color: AppColors.primary
                         .withOpacity(.13 * widget.intensity.clamp(0.0, 1.0)),
                     anchor: const Alignment(1.15, -1.05),
@@ -96,7 +97,7 @@ class _BrandBackdropState extends State<BrandBackdrop>
                   ),
                   _DriftingBlob(
                     animation: _loop,
-                    size: 380,
+                    size: 380.sp,
                     color: AppColors.secondaryPrimary
                         .withOpacity(.09 * widget.intensity.clamp(0.0, 1.0)),
                     anchor: const Alignment(-1.2, 1.1),

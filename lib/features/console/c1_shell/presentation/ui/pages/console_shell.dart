@@ -14,6 +14,7 @@ import 'package:get/get.dart';
 import 'package:manger_plus/core/constants/app_assets.dart';
 import 'package:manger_plus/core/custom/104-custom_motion.dart';
 import 'package:manger_plus/core/custom/11-custom_confirm_dialog.dart';
+import 'package:manger_plus/core/helper/main_helper/platform_helper.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
 import 'package:manger_plus/features/admin/a1_people/presentation/ui/pages/people_page.dart';
 import 'package:manger_plus/features/admin/a2_sections/presentation/ui/pages/sections_page.dart';
@@ -128,7 +129,10 @@ class _ConsoleShellViewState extends State<_ConsoleShellView> {
             backgroundColor: AppColors.background,
             body: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
-                final bool tight = constraints.maxWidth < 1100;
+                // One number decides cramped, app-wide — the rail, the tables
+                // and the charts must not disagree about it.
+                final bool tight =
+                    constraints.maxWidth < PlatformHelper.desktopLayoutWidth;
                 return Row(
                   children: <Widget>[
                     ConsoleSideRail(

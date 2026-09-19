@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/settings/se1_settings/presentation/ui/widgets/settings_body.dart';
 import 'package:manger_plus/generated/l10n.dart';
@@ -27,7 +28,7 @@ class MobileSettingsScreen extends StatelessWidget {
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 640.w),
             child: ListView(
-              padding: EdgeInsets.all(16.r),
+              padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 16.r),
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(bottom: 16.h, top: 8.h),

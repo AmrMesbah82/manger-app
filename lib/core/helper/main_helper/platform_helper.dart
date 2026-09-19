@@ -93,9 +93,36 @@ abstract final class PlatformHelper {
   }
 
   /// True on an iPad / Android tablet (or a narrow-but-not-phone browser).
+  ///
+  /// This is a question about the DEVICE. For "should this screen use its
+  /// tablet layout", ask [isTabletLayout] — a desktop window dragged down to
+  /// iPad width is not a tablet, but it has a tablet's room.
   static bool isTablet(BuildContext context) =>
       kindOf(context) == DeviceKind.mobile &&
       MediaQuery.sizeOf(context).shortestSide >= tabletBreakpoint;
+
+  /// Width from which a layout may spread out like a desktop: the full rail,
+  /// a seven-column table, charts side by side. The console's own "am I
+  /// cramped" test is this number, so every widget that asks the question
+  /// gets the same answer.
+  static const double desktopLayoutWidth = 1100;
+
+  /// TRUE WHEN THE UI SHOULD LAY ITSELF OUT AS A TABLET.
+  ///
+  /// Two ways to be one: a real tablet, or any window — macOS included —
+  /// that is narrower than [desktopLayoutWidth]. The second case is the one
+  /// that matters day to day: the console is developed on a Mac in a
+  /// half-width window, and that window has exactly an iPad's room, so it
+  /// must get the iPad's layout rather than a desktop layout squeezed.
+  ///
+  /// Pass [width] from a `LayoutBuilder` when the widget owns only part of
+  /// the window — a table inside a narrow panel is cramped even when the
+  /// window is not.
+  static bool isTabletLayout(BuildContext context, {double? width}) {
+    if (isTablet(context)) return true;
+    final double w = width ?? MediaQuery.sizeOf(context).width;
+    return w.isFinite && w < desktopLayoutWidth;
+  }
 
   /// Where the admin / teacher console may run: a desktop, or a tablet.
   static bool canRunConsole(BuildContext context) =>

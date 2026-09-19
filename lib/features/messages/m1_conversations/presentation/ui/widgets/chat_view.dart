@@ -15,6 +15,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/network/app_failure.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/learning_content.dart';
 import 'package:manger_plus/features/messages/m1_conversations/data/repository/messages_repository.dart';
@@ -99,21 +101,21 @@ class _ChatViewState extends State<ChatView> {
     final LearningContent? picked = await showModalBottomSheet<LearningContent>(
       context: context,
       backgroundColor: AppColors.card,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.sp)),
       ),
       builder: (BuildContext ctx) => SafeArea(
         child: ListView(
           shrinkWrap: true,
-          padding: const EdgeInsets.symmetric(vertical: 12),
+          padding: EdgeInsets.symmetric(vertical: 12.h),
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
+              padding: EdgeInsets.fromLTRB(AppPadding.h, 4.h, AppPadding.h, 8.h),
               child: Text(S.of(ctx).aboutAssignment, style: StyleText.fontSize16Weight600),
             ),
             for (final LearningContent c in widget.attachable)
               ListTile(
-                leading: ContentTypeIcon(type: c.type, size: 36),
+                leading: ContentTypeIcon(type: c.type, size: 36.sp),
                 title: Text(c.title, style: StyleText.fontSize14Weight600),
                 subtitle: Text(c.type.label(ctx), style: StyleText.fontSize12Weight400),
                 onTap: () => Navigator.of(ctx).pop(c),
@@ -140,14 +142,14 @@ class _ChatViewState extends State<ChatView> {
               if (!snap.hasData) return const AppLoading();
               final List<ChatMessage> messages = snap.data!;
               if (messages.isEmpty) {
-                return AppEmptyView(title: s.noMessagesYet, subtitle: s.noMessagesYetSub, size: 120);
+                return AppEmptyView(title: s.noMessagesYet, subtitle: s.noMessagesYetSub, size: 120.sp);
               }
               // reverse: the list grows from the bottom, and a new message
               // appears without any scroll bookkeeping.
               return ListView.builder(
                 controller: _scroll,
                 reverse: true,
-                padding: EdgeInsets.all(16.r),
+                padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 16.r),
                 itemCount: messages.length,
                 itemBuilder: (BuildContext context, int i) {
                   final ChatMessage m = messages[messages.length - 1 - i];
@@ -165,7 +167,7 @@ class _ChatViewState extends State<ChatView> {
   Widget _composer(BuildContext context) {
     final S s = S.of(context);
     return Container(
-      padding: EdgeInsets.fromLTRB(12.w, 8.h, 12.w, 12.h),
+      padding: EdgeInsets.fromLTRB(AppPadding.h, 8.h, AppPadding.h, 12.h),
       decoration: BoxDecoration(
         color: AppColors.card,
         border: Border(top: BorderSide(color: AppColors.borderGrey.withOpacity(0.3))),
@@ -180,7 +182,7 @@ class _ChatViewState extends State<ChatView> {
               Padding(
                 padding: EdgeInsets.only(bottom: 6.h),
                 child: InputChip(
-                  avatar: ContentTypeIcon(type: _about!.type, size: 18),
+                  avatar: ContentTypeIcon(type: _about!.type, size: 18.sp),
                   label: Text(s.aboutTitle(_about!.title), style: StyleText.fontSize12Weight600),
                   onDeleted: () => setState(() => _about = null),
                 ),
@@ -205,9 +207,9 @@ class _ChatViewState extends State<ChatView> {
                       hintText: s.typeMessage,
                       filled: true,
                       fillColor: AppColors.background,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                      contentPadding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 10.h),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24.r),
+                        borderRadius: AppRadius.fieldR,
                         borderSide: BorderSide.none,
                       ),
                     ),
@@ -254,7 +256,7 @@ class _Bubble extends StatelessWidget {
         constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.72),
         child: Container(
           margin: EdgeInsets.only(bottom: 8.h),
-          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
+          padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 10.h),
           decoration: BoxDecoration(
             color: bg,
             borderRadius: BorderRadiusDirectional.only(
@@ -268,7 +270,7 @@ class _Bubble extends StatelessWidget {
                 : <BoxShadow>[
                     BoxShadow(
                       color: Colors.black.withOpacity(0.04),
-                      blurRadius: 6,
+                      blurRadius: 6.sp,
                       offset: const Offset(0, 2),
                     ),
                   ],
@@ -279,10 +281,10 @@ class _Bubble extends StatelessWidget {
               if (message.isAboutContent)
                 Container(
                   margin: EdgeInsets.only(bottom: 6.h),
-                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                  padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 4.h),
                   decoration: BoxDecoration(
                     color: (mine ? Colors.white : AppColors.primary).withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(8.r),
+                    borderRadius: AppRadius.containerR,
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -339,12 +341,12 @@ class ConversationTile extends StatelessWidget {
 
     return Material(
       color: selected ? AppColors.primary.withOpacity(0.1) : AppColors.card,
-      borderRadius: BorderRadius.circular(14.r),
+      borderRadius: AppRadius.containerR,
       child: InkWell(
-        borderRadius: BorderRadius.circular(14.r),
+        borderRadius: AppRadius.containerR,
         onTap: onTap,
         child: Padding(
-          padding: EdgeInsets.all(12.r),
+          padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 12.r),
           child: Row(
             children: <Widget>[
               AppAvatar(name: other, size: 44),

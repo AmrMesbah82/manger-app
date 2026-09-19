@@ -91,7 +91,7 @@ class CustomTabs extends StatelessWidget {
                       Text(
                         tabs[i],
                         style: baseStyle.copyWith(
-                          height: 1.3,
+                          height: 1.3.h,
                           color: selectedValue == tabValues[i]
                               ? (selectedColor ?? AppColors.primary)
                               : (unselectedColor ?? AppColors.secondaryBlack),

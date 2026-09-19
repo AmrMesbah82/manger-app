@@ -17,12 +17,15 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:manger_plus/core/constants/app_constants.dart';
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/custom/57-custom_dialog_manager.dart';
 import 'package:manger_plus/core/network/app_failure.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/console/c1_shell/presentation/ui/widgets/console_page.dart';
 import 'package:manger_plus/features/console/c3_settings/data/demo_seeder.dart';
@@ -78,24 +81,24 @@ class _DemoDataCardState extends State<DemoDataCard> {
   Widget build(BuildContext context) {
     final S s = S.of(context);
     return Surface(
-      padding: const EdgeInsets.all(22),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 22.sp),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Row(
             children: <Widget>[
-              const TypeBadge(
+              TypeBadge(
                 icon: Icons.auto_awesome_rounded,
                 color: Color(0xffEC4899),
                 size: 56,
               ),
-              const SizedBox(width: 18),
+              SizedBox(width: 18.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(s.demoTitle, style: StyleText.fontSize16Weight600),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4.h),
                     Text(
                       s.demoBody(AppConstants.demoPassword),
                       style: StyleText.fontSize13Weight400
@@ -107,20 +110,20 @@ class _DemoDataCardState extends State<DemoDataCard> {
             ],
           ),
           if (_busy) ...<Widget>[
-            const SizedBox(height: 14),
+            SizedBox(height: 14.h),
             ClipRRect(
-              borderRadius: BorderRadius.circular(6),
+              borderRadius: AppRadius.containerR,
               child: LinearProgressIndicator(
-                minHeight: 8,
+                minHeight: 8.h,
                 value: _progress,
                 backgroundColor: AppColors.primary.withOpacity(0.1),
                 valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
               ),
             ),
-            const SizedBox(height: 6),
+            SizedBox(height: 6.h),
             Text(_step, style: StyleText.fontSize12Weight500),
           ],
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
@@ -142,7 +145,7 @@ class _DemoDataCardState extends State<DemoDataCard> {
                           ),
                         ),
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: 10.w),
               AppButton(
                 label: s.fillDemo,
                 icon: Icons.auto_awesome_rounded,

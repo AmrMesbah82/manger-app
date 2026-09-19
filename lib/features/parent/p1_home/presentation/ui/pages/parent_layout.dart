@@ -17,6 +17,8 @@ import 'package:manger_plus/core/constants/app_assets.dart';
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/custom/32-custom_svg.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/learning_content.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/submission.dart';
@@ -167,8 +169,7 @@ class _ChildDashboard extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.vertical(bottom: Radius.circular(32.r)),
                 ),
-                padding: EdgeInsets.fromLTRB(
-                    20.w, MediaQuery.of(context).padding.top + 16.h, 20.w, 20.h),
+                padding: EdgeInsets.fromLTRB(AppPadding.h, MediaQuery.of(context).padding.top + 16.h, AppPadding.h, 20.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -210,10 +211,10 @@ class _ChildDashboard extends StatelessWidget {
                             onTap: () => context.read<ParentCubit>().select(k.uid),
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 200),
-                              padding: EdgeInsets.symmetric(horizontal: 12.w),
+                              padding: EdgeInsets.symmetric(horizontal: AppPadding.h),
                               decoration: BoxDecoration(
                                 color: on ? Colors.white : Colors.white.withOpacity(0.18),
-                                borderRadius: BorderRadius.circular(22.r),
+                                borderRadius: AppRadius.containerR,
                               ),
                               child: Row(
                                 children: <Widget>[
@@ -243,7 +244,7 @@ class _ChildDashboard extends StatelessWidget {
               ),
             ),
             SliverPadding(
-              padding: EdgeInsets.all(16.r),
+              padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 16.r),
               sliver: SliverList(
                 delegate: SliverChildListDelegate(<Widget>[
                   if (state.failure != null) ...<Widget>[

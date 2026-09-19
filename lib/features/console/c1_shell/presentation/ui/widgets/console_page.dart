@@ -8,10 +8,13 @@
 /// Created: 18/9/2026
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:manger_plus/core/custom/35-custom_search_widget_custom.dart';
 import 'package:manger_plus/core/custom/8-custom_filter_app.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/generated/l10n.dart';
 import 'package:manger_plus/core/custom/111-app_svg_icon.dart';
@@ -52,7 +55,7 @@ class ConsolePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Widget body = Padding(
-      padding: const EdgeInsets.fromLTRB(32, 0, 32, 28),
+      padding: EdgeInsets.fromLTRB(AppPadding.h, 0.h, AppPadding.h, 28.h),
       child: child,
     );
 
@@ -60,7 +63,7 @@ class ConsolePage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.fromLTRB(32, 28, 32, 20),
+          padding: EdgeInsets.fromLTRB(AppPadding.h, 28.h, AppPadding.h, 20.h),
           child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints c) {
           // Tablet portrait: the actions no longer fit beside the title, so
@@ -71,7 +74,7 @@ class ConsolePage extends StatelessWidget {
             children: <Widget>[
               Text(title, style: StyleText.fontSize26Weight600),
               if (subtitle != null) ...<Widget>[
-                const SizedBox(height: 4),
+                SizedBox(height: 4.h),
                 Text(
                   subtitle!,
                   style: StyleText.fontSize14Weight400
@@ -85,15 +88,15 @@ class ConsolePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 titleBlock,
-                const SizedBox(height: 14),
+                SizedBox(height: 14.h),
                 Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
+                  spacing: 10.w,
+                  runSpacing: 10.h,
                   children: <Widget>[
                     for (final Widget a in actions)
                       ConstrainedBox(
-                        constraints: const BoxConstraints(
-                            maxHeight: kConsoleControlHeight, maxWidth: 420),
+                        constraints: BoxConstraints(
+                            maxHeight: kConsoleControlHeight.h, maxWidth: 420.w),
                         child: a,
                       ),
                   ],
@@ -110,7 +113,7 @@ class ConsolePage extends StatelessWidget {
                   children: <Widget>[
                     Text(title, style: StyleText.fontSize26Weight600),
                     if (subtitle != null) ...<Widget>[
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                       Text(
                         subtitle!,
                         style: StyleText.fontSize14Weight400
@@ -121,12 +124,12 @@ class ConsolePage extends StatelessWidget {
                 ),
               ),
               for (int i = 0; i < actions.length; i++) ...<Widget>[
-                if (i > 0) const SizedBox(width: 10),
+                if (i > 0) SizedBox(width: 10.w),
                 // maxHeight, not a tight SizedBox: a control that wants more
                 // is brought into line instead of overflowing with stripes.
                 ConstrainedBox(
                   constraints:
-                      const BoxConstraints(maxHeight: kConsoleControlHeight),
+                      BoxConstraints(maxHeight: kConsoleControlHeight.h),
                   child: actions[i],
                 ),
               ],
@@ -188,7 +191,9 @@ class _ConsoleSearchFieldState extends State<ConsoleSearchField> {
     return AppSearchTextField(
       controller: _controller,
       expanded: false,
-      width: widget.width,
+      // The caller passes a DESIGN width; a search box that stayed 280 real
+      // pixels while the type around it grew was the tablet's worst toolbar.
+      width: widget.width.w,
       hintText: widget.hint,
       onChanged: _set,
       // A bare IconButton is 48 square and would burst a 38-tall field.
@@ -197,8 +202,8 @@ class _ConsoleSearchFieldState extends State<ConsoleSearchField> {
           : IconButton(
               padding: EdgeInsets.zero,
               visualDensity: VisualDensity.compact,
-              constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
-              iconSize: 16,
+              constraints: BoxConstraints(minWidth: 28.w, minHeight: 28.h),
+              iconSize: 16.sp,
               icon: const AppIcon(Icons.close_rounded),
               onPressed: () {
                 _controller.clear();
@@ -271,8 +276,8 @@ class FilterChipRow<T> extends StatelessWidget {
       // Pills, not count boxes: 38 tall and 10 apart, so a filter row lines up
       // with the 38-tall toolbar controls above it instead of towering over
       // them on knowticed's 45 + 30 count-chip spacing.
-      chipSize: 38,
-      chipSpacing: 10,
+      chipSize: 38.h,
+      chipSpacing: 10.w,
       selectedKey: selectedIndex < 0
           ? (allLabel != null ? kAllChipKey : '')
           : _keyFor(selectedIndex),
@@ -326,11 +331,11 @@ class ConsoleDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: AppColors.card,
-      insetPadding: const EdgeInsets.all(24),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      insetPadding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 24.sp),
+      shape: RoundedRectangleBorder(borderRadius: AppRadius.containerR),
       child: ConstrainedBox(
         constraints: BoxConstraints(
-          maxWidth: width,
+          maxWidth: width.w,
           maxHeight: MediaQuery.of(context).size.height * 0.88,
         ),
         child: Column(
@@ -338,7 +343,7 @@ class ConsoleDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.fromLTRB(24, 22, 12, 8),
+              padding: EdgeInsets.fromLTRB(AppPadding.h, 22.h, AppPadding.h, 8.h),
               child: Row(
                 children: <Widget>[
                   Expanded(
@@ -364,17 +369,17 @@ class ConsoleDialog extends StatelessWidget {
             ),
             Flexible(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
+                padding: EdgeInsets.fromLTRB(AppPadding.h, 8.h, AppPadding.h, 8.h),
                 child: child,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(24, 12, 24, 20),
+              padding: EdgeInsets.fromLTRB(AppPadding.h, 12.h, AppPadding.h, 20.h),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   for (int i = 0; i < actions.length; i++) ...<Widget>[
-                    if (i > 0) const SizedBox(width: 10),
+                    if (i > 0) SizedBox(width: 10.w),
                     actions[i],
                   ],
                 ],
@@ -396,7 +401,7 @@ class FormLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 14, bottom: 8),
+      padding: EdgeInsets.only(top: 14.h, bottom: 8.h),
       child: Text(
         text,
         style: StyleText.fontSize13Weight600.copyWith(color: AppColors.secondaryText),
@@ -410,7 +415,7 @@ void showToast(BuildContext context, String message, {bool error = false}) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       behavior: SnackBarBehavior.floating,
-      width: MediaQuery.of(context).size.width > 600 ? 420 : null,
+      width: MediaQuery.of(context).size.width > 600 ? 420.w : null,
       backgroundColor: error ? AppColors.red : AppColors.text,
       content: Text(message, style: StyleText.fontSize14Weight500.copyWith(color: AppColors.background)),
     ),

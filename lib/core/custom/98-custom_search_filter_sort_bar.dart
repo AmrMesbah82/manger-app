@@ -25,6 +25,7 @@ import 'package:manger_plus/core/constants/app_assets.dart';
 import 'package:manger_plus/core/custom/32-custom_svg.dart';
 import 'package:manger_plus/core/custom/35-custom_search_widget_custom.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 
 /// A search field plus optional filter, sort and trailing actions.
@@ -239,7 +240,7 @@ class _ToolbarDropdownButton<T> extends StatelessWidget {
         color: AppColors.card,
         elevation: 2,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.sp),
+          borderRadius: AppRadius.buttonR,
         ),
         style: ButtonStyle(
           overlayColor:
@@ -327,7 +328,7 @@ class ToolbarActionButton extends StatelessWidget {
         height: effectiveHeight,
         decoration: BoxDecoration(
           color: background,
-          borderRadius: BorderRadius.circular(8.sp),
+          borderRadius: AppRadius.buttonR,
         ),
         child: Center(
           child: isPhone
@@ -401,7 +402,7 @@ class ToolbarIconButton extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: isActive ? AppColors.primary : (fillColor ?? AppColors.card),
-          borderRadius: BorderRadius.circular(8.sp),
+          borderRadius: AppRadius.buttonR,
         ),
         child: CustomSvgImage(
           assetPath: iconPath,

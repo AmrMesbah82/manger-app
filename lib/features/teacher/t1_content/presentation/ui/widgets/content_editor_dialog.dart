@@ -11,6 +11,7 @@ import 'package:dartz/dartz.dart' hide State;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:manger_plus/core/constants/app_constants.dart';
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
@@ -18,6 +19,8 @@ import 'package:manger_plus/core/custom/2-custom_textfield.dart';
 import 'package:manger_plus/core/network/app_failure.dart';
 import 'package:manger_plus/core/network/app_firebase.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/data/repository/academy_repository.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/base_repository/academy_base_repository.dart';
@@ -318,13 +321,13 @@ class _ContentEditorDialogState extends State<ContentEditorDialog> {
         children: <Widget>[
           if (_error != null) ...<Widget>[
             InfoBanner.error(_error!),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
           ],
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               TypeBadge(icon: _type.icon, color: _type.color, size: 52, solid: true),
-              const SizedBox(width: 14),
+              SizedBox(width: 14.w),
               Expanded(
                 child: CustomTextField(
                   controller: _title,
@@ -333,14 +336,14 @@ class _ContentEditorDialogState extends State<ContentEditorDialog> {
                   errorText: _titleError,
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               SizedBox(
-                width: 200,
+                width: 200.w,
                 child: CustomTextField(controller: _subject, label: s.subject),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           CustomTextField(
             controller: _description,
             label: s.description,
@@ -361,7 +364,7 @@ class _ContentEditorDialogState extends State<ContentEditorDialog> {
                 if (v.isNotEmpty) setState(() => _source = v.first);
               },
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
             if (_source == _FileSource.upload)
               _FileDropBox(
                 type: _type,
@@ -388,7 +391,7 @@ class _ContentEditorDialogState extends State<ContentEditorDialog> {
           if (_type.isAssessment) ...<Widget>[
             FormLabel(s.timeLimit),
             SizedBox(
-              width: 220,
+              width: 220.w,
               child: CustomTextField(
                 controller: _duration,
                 label: s.minutes,
@@ -429,18 +432,18 @@ class _ContentEditorDialogState extends State<ContentEditorDialog> {
             },
             onChanged: (Set<String> v) => setState(() => _studentIds = v),
           ),
-          const SizedBox(height: 14),
+          SizedBox(height: 14.h),
           Row(
             children: <Widget>[
               Expanded(
                 child: Surface(
                   color: AppColors.background,
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 10.h),
                   onTap: _pickDueDate,
                   child: Row(
                     children: <Widget>[
-                      AppIcon(Icons.event_rounded, color: AppColors.primary, size: 20),
-                      const SizedBox(width: 10),
+                      AppIcon(Icons.event_rounded, color: AppColors.primary, size: 20.sp),
+                      SizedBox(width: 10.w),
                       Expanded(
                         child: Text(
                           _dueAt == null ? s.noDueDate : s.dueOn(AppDates.day(context, _dueAt)),
@@ -450,13 +453,13 @@ class _ContentEditorDialogState extends State<ContentEditorDialog> {
                       if (_dueAt != null)
                         IconButton(
                           onPressed: () => setState(() => _dueAt = null),
-                          icon: AppIcon(Icons.close_rounded, size: 18, color: AppColors.secondaryText),
+                          icon: AppIcon(Icons.close_rounded, size: 18.sp, color: AppColors.secondaryText),
                         ),
                     ],
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: SwitchRow(
                   icon: Icons.visibility_outlined,
@@ -469,7 +472,7 @@ class _ContentEditorDialogState extends State<ContentEditorDialog> {
             ],
           ),
           if (_sectionIds.isEmpty && _studentIds.isEmpty) ...<Widget>[
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
             InfoBanner(message: s.notAssignedWarning, icon: Icons.info_outline_rounded),
           ],
         ],
@@ -503,13 +506,13 @@ class _FileDropBox extends StatelessWidget {
 
     return InkWell(
       onTap: onPick,
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: AppRadius.containerR,
       child: Container(
-        padding: const EdgeInsets.all(18),
+        padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 18.sp),
         decoration: BoxDecoration(
           color: type.color.withOpacity(0.05),
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: border, width: 1.4),
+          borderRadius: AppRadius.containerR,
+          border: Border.all(color: border, width: 1.4.w),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -519,9 +522,9 @@ class _FileDropBox extends StatelessWidget {
                 AppIcon(
                   fileName == null ? Icons.cloud_upload_outlined : type.icon,
                   color: type.color,
-                  size: 30,
+                  size: 30.sp,
                 ),
-                const SizedBox(width: 14),
+                SizedBox(width: 14.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -547,24 +550,24 @@ class _FileDropBox extends StatelessWidget {
               ],
             ),
             if (progress != null) ...<Widget>[
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               ClipRRect(
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: AppRadius.containerR,
                 child: LinearProgressIndicator(
-                  minHeight: 8,
+                  minHeight: 8.h,
                   value: progress,
                   backgroundColor: type.color.withOpacity(0.12),
                   valueColor: AlwaysStoppedAnimation<Color>(type.color),
                 ),
               ),
-              const SizedBox(height: 4),
+              SizedBox(height: 4.h),
               Text(
                 s.uploadingPercent('${((progress ?? 0) * 100).round()}'),
                 style: StyleText.fontSize12Weight500,
               ),
             ],
             if (error != null) ...<Widget>[
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
               Text(error!, style: StyleText.fontSize12Weight500.copyWith(color: AppColors.red)),
             ],
           ],

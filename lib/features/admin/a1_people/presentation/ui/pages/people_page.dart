@@ -9,12 +9,14 @@
 
 import 'package:dartz/dartz.dart' hide State;
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:manger_plus/core/custom/100-custom_data_table.dart';
 import 'package:manger_plus/core/custom/11-custom_confirm_dialog.dart';
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/network/app_failure.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/data/repository/academy_repository.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/section.dart';
@@ -152,7 +154,7 @@ class _PeoplePageState extends State<PeoplePage> {
         cell: (_, AppUser u) => Row(
           children: <Widget>[
             AppAvatar(name: u.displayName, size: 34),
-            const SizedBox(width: 10),
+            SizedBox(width: 10.w),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -253,7 +255,7 @@ class _PeoplePageState extends State<PeoplePage> {
           children: <Widget>[
             IconButton(
               tooltip: s.edit,
-              icon: AppIcon(Icons.edit_outlined, color: AppColors.primary, size: 20),
+              icon: AppIcon(Icons.edit_outlined, color: AppColors.primary, size: 20.sp),
               onPressed: () => _edit(sections, students, u),
             ),
             IconButton(
@@ -261,13 +263,13 @@ class _PeoplePageState extends State<PeoplePage> {
               icon: AppIcon(
                 u.active ? Icons.pause_circle_outline : Icons.play_circle_outline,
                 color: AppColors.secondaryText,
-                size: 20,
+                size: 20.sp,
               ),
               onPressed: () => _toggleActive(u),
             ),
             IconButton(
               tooltip: s.delete,
-              icon: AppIcon(Icons.delete_outline_rounded, color: AppColors.red, size: 20),
+              icon: AppIcon(Icons.delete_outline_rounded, color: AppColors.red, size: 20.sp),
               onPressed: () => _delete(u),
             ),
           ],
@@ -312,11 +314,11 @@ class _PeoplePageState extends State<PeoplePage> {
                       labelOf: (String id) => _sectionName(sections, id),
                       onSelected: (String? v) => setState(() => _sectionFilter = v),
                     ),
-                    const SizedBox(height: 14),
+                    SizedBox(height: 14.h),
                   ],
                   Expanded(
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: AppRadius.containerR,
                       child: Container(
                         color: AppColors.card,
                         child: StreamBuilder<List<AppUser>>(

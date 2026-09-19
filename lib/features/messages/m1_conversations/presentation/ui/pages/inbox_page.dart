@@ -2,17 +2,21 @@
 ///
 ///*************************** FILE INFO ****************************///
 /// File Name: inbox_page.dart
-/// Purpose: Declares `InboxPage` (the console's two-pane messages page) and
-///          `ChatScreen` (a thread full-screen, for the phone).
+/// Purpose: Declares `InboxPage` (two panes on a desktop, a list that opens a
+///          thread on a tablet) and `ChatScreen` (a thread full-screen).
 /// Author: Manger Plus team
 /// Created: 18/9/2026
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
+import 'package:manger_plus/core/helper/main_helper/platform_helper.dart';
 import 'package:manger_plus/core/network/app_failure.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/data/repository/academy_repository.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/learning_content.dart';
@@ -76,9 +80,37 @@ class _InboxViewState extends State<_InboxView> {
                 (Conversation c) => c.id == _openId,
                 orElse: () => threads.first,
               );
-              // Narrower list on a tablet in portrait so the chat keeps room.
+              // ONE PANE ON A TABLET (19/9/2026).
+              //
+              // A 270pt thread list beside a chat leaves the chat about 400pt
+              // wide on an iPad — bubbles a few words across, and a header
+              // whose name and "parent of …" line both ellipsise. A tablet
+              // opens the thread INSTEAD of the list, the way every messaging
+              // app on a tablet does, and comes back with the back button.
+              if (PlatformHelper.isTabletLayout(context)) {
+                return ListView.separated(
+                  itemCount: threads.length,
+                  separatorBuilder: (_, __) => SizedBox(height: 8.h),
+                  itemBuilder: (BuildContext context, int i) => ConversationTile(
+                    conversation: threads[i],
+                    myUid: widget.me.uid,
+                    selected: false,
+                    onTap: () {
+                      setState(() => _openId = threads[i].id);
+                      Navigator.of(context).push(MaterialPageRoute<void>(
+                        builder: (_) => ChatScreen(
+                          conversation: threads[i],
+                          me: widget.me,
+                          attachable: contentSnap.data ?? const <LearningContent>[],
+                        ),
+                      ));
+                    },
+                  ),
+                );
+              }
+
               final double listWidth =
-                  MediaQuery.sizeOf(context).width < 1000 ? 270 : 340;
+                  MediaQuery.sizeOf(context).width < 1200 ? 270.w : 340.w;
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
@@ -86,7 +118,7 @@ class _InboxViewState extends State<_InboxView> {
                     width: listWidth,
                     child: ListView.separated(
                       itemCount: threads.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 8),
+                      separatorBuilder: (_, __) => SizedBox(height: 8.h),
                       itemBuilder: (BuildContext context, int i) => ConversationTile(
                         conversation: threads[i],
                         myUid: widget.me.uid,
@@ -95,10 +127,10 @@ class _InboxViewState extends State<_InboxView> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 20),
+                  SizedBox(width: 20.w),
                   Expanded(
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: AppRadius.containerR,
                       child: Container(
                         color: AppColors.chatBackground,
                         child: Column(
@@ -106,11 +138,11 @@ class _InboxViewState extends State<_InboxView> {
                           children: <Widget>[
                             Container(
                               color: AppColors.card,
-                              padding: const EdgeInsets.all(14),
+                              padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 14.sp),
                               child: Row(
                                 children: <Widget>[
                                   AppAvatar(name: open.parentName, size: 40),
-                                  const SizedBox(width: 12),
+                                  SizedBox(width: 12.w),
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,7 +209,7 @@ class ChatScreen extends StatelessWidget {
         title: Row(
           children: <Widget>[
             AppAvatar(name: other, size: 36),
-            const SizedBox(width: 10),
+            SizedBox(width: 10.w),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

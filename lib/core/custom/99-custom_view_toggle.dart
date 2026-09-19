@@ -20,6 +20,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manger_plus/core/constants/app_assets.dart';
 import 'package:manger_plus/core/custom/32-custom_svg.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/haptic_controller.dart';
 
 /// How a collection is laid out. Persisted per page, not per install: it is a
@@ -106,7 +107,7 @@ class _ToggleButton extends StatelessWidget {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: isActive ? AppColors.primary : AppColors.card,
-            borderRadius: BorderRadius.circular(8.sp),
+            borderRadius: AppRadius.buttonR,
           ),
           child: CustomSvgImage(
             assetPath: iconPath,

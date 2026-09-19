@@ -25,6 +25,8 @@ import 'package:manger_plus/core/custom/104-custom_motion.dart';
 import 'package:manger_plus/core/extensions/context_extensions.dart';
 import 'package:manger_plus/core/helper/main_helper/localized_number.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 
 class StatusChipFilter extends StatelessWidget {
@@ -133,10 +135,10 @@ class _StatusChip extends StatelessWidget {
               duration: const Duration(milliseconds: 180),
               height: chipSize,
               alignment: Alignment.center,
-              padding: EdgeInsets.symmetric(horizontal: 14.sp),
+              padding: EdgeInsets.symmetric(horizontal: AppPadding.h),
               decoration: BoxDecoration(
                 color: isSelected ? selectedColor : unselectedColor,
-                borderRadius: BorderRadius.circular(8.r),
+                borderRadius: AppRadius.buttonR,
               ),
               child: Text(
                 item.label,
@@ -164,7 +166,7 @@ class _StatusChip extends StatelessWidget {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: isSelected ? selectedColor : unselectedColor,
-                borderRadius: BorderRadius.circular(4.r),
+                borderRadius: AppRadius.buttonR,
               ),
               child: AnimatedCount(
                 // ADDED 8/9/2026: the count travels to its new value instead
@@ -184,7 +186,7 @@ class _StatusChip extends StatelessWidget {
                 ),
                 style: StyleText.fontSize20Weight500.copyWith(
                   color: countColor,
-                  height: 1.0,
+                  height: 1.0.h,
                   leadingDistribution: TextLeadingDistribution.even,
                 ),
               ),

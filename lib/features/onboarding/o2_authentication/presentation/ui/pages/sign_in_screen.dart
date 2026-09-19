@@ -19,6 +19,7 @@ import 'package:manger_plus/core/custom/32-custom_svg.dart';
 import 'package:manger_plus/core/helper/main_helper/platform_helper.dart';
 import 'package:manger_plus/core/network/app_firebase.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/core/theme/theme_controller.dart';
 import 'package:manger_plus/features/onboarding/o1_splash/presentation/ui/pages/splash_screen.dart';
@@ -100,26 +101,26 @@ class _SignInViewState extends State<_SignInView> {
                 colors: <Color>[AppColors.primary, AppColors.secondaryPrimary],
               ),
             ),
-            padding: const EdgeInsets.all(48),
+            padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 48.sp),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const BrandMark(size: 52, onDark: true),
+                BrandMark(size: 52, onDark: true),
                 const Spacer(),
                 Center(
                   child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 420, maxHeight: 340),
+                    constraints: BoxConstraints(maxWidth: 420.w, maxHeight: 340.h),
                     child: const CustomSvgImage.natural(
                       assetPath: AppAssets.illustrationLearning,
                     ),
                   ),
                 ),
-                const SizedBox(height: 32),
+                SizedBox(height: 32.h),
                 Text(
                   S.of(context).consoleHeadline,
                   style: StyleText.fontSize28Weight600.copyWith(color: Colors.white),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Text(
                   S.of(context).consoleSubheadline,
                   style: StyleText.fontSize15Weight400.copyWith(color: Colors.white70),
@@ -135,14 +136,14 @@ class _SignInViewState extends State<_SignInView> {
             children: <Widget>[
               Center(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(40),
+                  padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 40.sp),
                   child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 420),
+                    constraints: BoxConstraints(maxWidth: 420.w),
                     child: _form(context),
                   ),
                 ),
               ),
-              const PositionedDirectional(top: 20, end: 20, child: _LanguageToggle()),
+              PositionedDirectional(top: 20.h, end: 20, child: _LanguageToggle()),
             ],
           ),
         ),
@@ -153,12 +154,25 @@ class _SignInViewState extends State<_SignInView> {
   // ── Phone / tablet: gradient header over the form ────────────────────────
 
   Widget _mobile(BuildContext context) {
+    // THE LAST LINE HAS TO BE REACHABLE (19/9/2026).
+    //
+    // The scroll view ended exactly where the content ended, and on a phone
+    // with a gesture bar (or Samsung's three-button bar) the footer sat
+    // BEHIND it: scrolling to the bottom still showed a clipped
+    // "© All rights reserved". The system inset is added to the bottom of the
+    // scroll padding, so the content can always be scrolled clear of the bar.
+    // `viewPadding`, not `padding`: with the keyboard open the Scaffold has
+    // already consumed the inset, and `padding` would then read zero and put
+    // the footer back under the bar the moment the keyboard closes mid-scroll.
+    final double bottomInset = MediaQuery.viewPaddingOf(context).bottom;
+
     return SingleChildScrollView(
+      padding: EdgeInsets.only(bottom: bottomInset + 12.h),
       child: Column(
         children: <Widget>[
           Container(
             width: double.infinity,
-            padding: EdgeInsets.fromLTRB(24.w, 60.h, 24.w, 40.h),
+            padding: EdgeInsets.fromLTRB(AppPadding.h, 60.h, AppPadding.h, 40.h),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
@@ -173,7 +187,7 @@ class _SignInViewState extends State<_SignInView> {
                   alignment: AlignmentDirectional.centerEnd,
                   child: _LanguageToggle(onDark: true),
                 ),
-                const BrandMark(size: 64, vertical: true, onDark: true),
+                BrandMark(size: 64, vertical: true, onDark: true),
                 SizedBox(height: 20.h),
                 SizedBox(
                   height: 150.h,
@@ -188,7 +202,7 @@ class _SignInViewState extends State<_SignInView> {
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 480.w),
               child: Padding(
-                padding: EdgeInsets.fromLTRB(20.w, 28.h, 20.w, 32.h),
+                padding: EdgeInsets.fromLTRB(AppPadding.h, 28.h, AppPadding.h, 32.h),
                 child: _form(context),
               ),
             ),
@@ -266,6 +280,7 @@ class _SignInForm extends StatelessWidget {
                 controller: cubit.nameController,
                 label: s.fullName,
                 hint: s.fullNameHint,
+                fillColor: AppColors.card,
                 errorText: _fieldMessage(context, state.nameError),
                 prefixIcon: const AppIcon(Icons.person_outline_rounded),
                 textInputAction: TextInputAction.next,
@@ -274,6 +289,7 @@ class _SignInForm extends StatelessWidget {
             ],
             CustomTextField(
               controller: cubit.emailController,
+              fillColor: AppColors.card,
               label: s.email,
               hint: 'name@example.com',
               keyboardType: TextInputType.emailAddress,
@@ -288,6 +304,7 @@ class _SignInForm extends StatelessWidget {
             CustomTextField(
               controller: cubit.passwordController,
               label: s.password,
+              fillColor: AppColors.card,
               hint: '••••••',
               obscureText: state.obscure,
               textInputAction: TextInputAction.done,
@@ -378,7 +395,7 @@ class _LanguageToggle extends StatelessWidget {
     return Obx(
       () => TextButton.icon(
         onPressed: theme.toggleLanguage,
-        icon: AppIcon(Icons.translate_rounded, color: color, size: 18),
+        icon: AppIcon(Icons.translate_rounded, color: color, size: 18.sp),
         label: Text(
           theme.languageCode.value == 'ar' ? 'English' : 'العربية',
           style: StyleText.fontSize13Weight600.copyWith(color: color),

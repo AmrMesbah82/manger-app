@@ -11,11 +11,14 @@ import 'dart:async';
 
 import 'package:dartz/dartz.dart' hide State;
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import 'package:manger_plus/core/custom/1-custom_dropdown.dart';
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/network/app_failure.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/data/repository/academy_repository.dart';
 import 'package:manger_plus/features/academy/ac1_core/data/utils/academy_utils.dart';
@@ -44,8 +47,8 @@ class _StepButton extends StatelessWidget {
       onPressed: onPressed,
       padding: EdgeInsets.zero,
       visualDensity: VisualDensity.compact,
-      constraints: const BoxConstraints(minWidth: 30, minHeight: 30),
-      iconSize: 20,
+      constraints: BoxConstraints(minWidth: 30.w, minHeight: 30.h),
+      iconSize: 20.sp,
       icon: AppIcon(icon),
     );
   }
@@ -184,7 +187,7 @@ class _AttendanceViewState extends State<_AttendanceView> {
             // buttons it sits beside on every other page.
             Surface(
               radius: 8,
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+              padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 4.h),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -198,11 +201,11 @@ class _AttendanceViewState extends State<_AttendanceView> {
                   TextButton.icon(
                     onPressed: _pickDay,
                     style: TextButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      padding: EdgeInsets.symmetric(horizontal: AppPadding.h),
                       minimumSize: const Size(0, 30),
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
-                    icon: AppIcon(Icons.event_rounded, color: AppColors.primary, size: 18),
+                    icon: AppIcon(Icons.event_rounded, color: AppColors.primary, size: 18.sp),
                     label: Text(AppDates.weekday(context, _day),
                         style: StyleText.fontSize14Weight600),
                   ),
@@ -232,7 +235,7 @@ class _AttendanceViewState extends State<_AttendanceView> {
                         if (id != null) _select(id, _day);
                       },
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     Expanded(
                       child: _students == null
                           ? const AppLoading()
@@ -276,10 +279,10 @@ class _AttendanceViewState extends State<_AttendanceView> {
             // line, instead of the row overflowing.
             final List<Widget> tallies = <Widget>[
             for (final AttendanceStatus a in AttendanceStatus.values) ...<Widget>[
-              AppIcon(a.icon, color: a.color, size: 18),
-              const SizedBox(width: 4),
+              AppIcon(a.icon, color: a.color, size: 18.sp),
+              SizedBox(width: 4.w),
               Text('${a.label(context)} ${counts[a]}', style: StyleText.fontSize13Weight600),
-              const SizedBox(width: 16),
+              SizedBox(width: 16.w),
             ],
             if (unmarked > 0)
               Text(s.unmarkedCount('$unmarked'),
@@ -297,7 +300,7 @@ class _AttendanceViewState extends State<_AttendanceView> {
                 }
               }),
             ),
-            const SizedBox(width: 10),
+            SizedBox(width: 10.w),
             AppButton(
               label: _dirty ? s.saveChanges : s.saved,
               icon: Icons.save_outlined,
@@ -312,10 +315,10 @@ class _AttendanceViewState extends State<_AttendanceView> {
                 children: <Widget>[
                   Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
-                    runSpacing: 6,
+                    runSpacing: 6.h,
                     children: tallies,
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10.h),
                   Row(mainAxisAlignment: MainAxisAlignment.end, children: buttons),
                 ],
               );
@@ -323,41 +326,55 @@ class _AttendanceViewState extends State<_AttendanceView> {
             return Row(children: <Widget>[...tallies, const Spacer(), ...buttons]);
           },
         ),
-        const SizedBox(height: 14),
+        SizedBox(height: 14.h),
         Expanded(
           child: ListView.separated(
             itemCount: students.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 8),
+            separatorBuilder: (_, __) => SizedBox(height: 8.h),
             itemBuilder: (BuildContext context, int i) {
               final AppUser u = students[i];
               final AttendanceStatus? current = _statusOf(u.uid);
-              final List<Widget> chips = <Widget>[
+              // ONE DROPDOWN, NOT FOUR CHIPS (19/9/2026).
+              //
+              // The four statuses used to sit on the row as `ChoiceChip`s —
+              // four tap targets per student, ~330pt of row spent on them,
+              // and on a narrow window they wrapped under the name and turned
+              // one register into a wall of pills. A register is a LIST OF
+              // ONE-OF-FOUR ANSWERS, which is what a dropdown is for, and
+              // `1-custom_dropdown` is the app's one dropdown.
+              //
+              // After a pick it still READS AS A DROPDOWN (19/9/2026): the
+              // trigger shows the chosen row — its glyph and its label — and
+              // nothing else. It had a second copy of the glyph in the prefix
+              // slot and a tinted box around it, which stopped looking like a
+              // control you could change.
+              final Widget statusPicker = SizedBox(
+                width: 190.w,
+                child: CustomDropdown<AttendanceStatus>(
+                  value: current,
+                  hint: s.status,
+                  // Design pixels — the dropdown scales it (see its `height`).
+                  height: 40,
+                  items: <DropdownItem<AttendanceStatus>>[
                     for (final AttendanceStatus a in AttendanceStatus.values)
-                      Padding(
-                        padding: const EdgeInsetsDirectional.only(start: 6),
-                        child: ChoiceChip(
-                          label: Text(a.label(context)),
-                          avatar: AppIcon(a.icon,
-                              size: 16, color: current == a ? Colors.white : a.color),
-                          selected: current == a,
-                          showCheckmark: false,
-                          selectedColor: a.color,
-                          backgroundColor: a.color.withOpacity(0.08),
-                          side: BorderSide.none,
-                          labelStyle: StyleText.fontSize12Weight600
-                              .copyWith(color: current == a ? Colors.white : a.color),
-                          onSelected: (_) => setState(() => _edits[u.uid] = a),
-                        ),
+                      DropdownItem<AttendanceStatus>(
+                        value: a,
+                        label: a.label(context),
+                        leading: AppIcon(a.icon, size: 16.sp, color: a.color),
                       ),
-              ];
+                  ],
+                  onChanged: (AttendanceStatus a) =>
+                      setState(() => _edits[u.uid] = a),
+                ),
+              );
               return Surface(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 10.h),
                 child: LayoutBuilder(
                   builder: (BuildContext context, BoxConstraints c) {
                     final Widget who = Row(
                       children: <Widget>[
                     AppAvatar(name: u.displayName, size: 36),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -372,18 +389,21 @@ class _AttendanceViewState extends State<_AttendanceView> {
                     ),
                       ],
                     );
-                    // Tablet portrait: the four statuses move under the name.
-                    if (c.maxWidth < 600) {
+                    // Narrow: the picker moves under the name and takes the
+                    // full width, so the name is never squeezed to fit it.
+                    if (c.maxWidth < 420) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           who,
-                          const SizedBox(height: 8),
-                          Wrap(runSpacing: 6, children: chips),
+                          SizedBox(height: 8.h),
+                          statusPicker,
                         ],
                       );
                     }
-                    return Row(children: <Widget>[Expanded(child: who), ...chips]);
+                    return Row(
+                      children: <Widget>[Expanded(child: who), statusPicker],
+                    );
                   },
                 ),
               );

@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/core/custom/32-custom_svg.dart';
 
@@ -46,8 +47,9 @@ abstract class CardSvg {
 }
 
 abstract class CardStyles {
-  /// Default card corner radius (8 in Figma).
-  static BorderRadius radius([double r = 8]) => BorderRadius.circular(r.r);
+  /// Default card corner radius — [AppRadius.container].
+  static BorderRadius radius([double r = AppRadius.container]) =>
+      BorderRadius.circular(r.r);
 
   /// Figma drop shadow: (-3, 4) blur 20, black 2%.
   static List<BoxShadow> get shadow => [

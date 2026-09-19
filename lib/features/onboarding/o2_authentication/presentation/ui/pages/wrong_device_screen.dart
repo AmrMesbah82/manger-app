@@ -16,6 +16,7 @@ import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/custom/32-custom_svg.dart';
 import 'package:manger_plus/core/helper/main_helper/platform_helper.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/onboarding/o1_splash/presentation/ui/pages/splash_screen.dart';
 import 'package:manger_plus/features/onboarding/o2_authentication/data/repository/auth_repository.dart';
@@ -45,9 +46,9 @@ class WrongDeviceScreen extends StatelessWidget {
       backgroundColor: AppColors.background,
       body: Center(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(24.r),
+          padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 24.r),
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 460),
+            constraints: BoxConstraints(maxWidth: 460.w),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[

@@ -37,6 +37,8 @@ import 'package:manger_plus/core/constants/app_assets.dart';
 import 'package:manger_plus/core/custom/2-custom_textfield.dart';
 import 'package:manger_plus/core/custom/32-custom_svg.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/core/theme/haptic_controller.dart';
 
@@ -55,23 +57,23 @@ class _DialogShell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: AppColors.transparent,
-      insetPadding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+      insetPadding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 24.h),
       child: Container(
         width: width ?? 420.w,
         decoration: BoxDecoration(
           color: Theme.of(context).brightness == Brightness.light
               ? AppColors.card
               : AppColors.background,
-          borderRadius: BorderRadius.circular(8.r),
+          borderRadius: AppRadius.containerR,
           boxShadow: <BoxShadow>[
             BoxShadow(
               color: AppColors.totalBlack.withOpacity(0.08),
-              blurRadius: 20,
+              blurRadius: 20.sp,
               offset: const Offset(-3, 4),
             ),
           ],
         ),
-        padding: EdgeInsets.all(16.r),
+        padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 16.r),
         child: child,
       ),
     );
@@ -93,7 +95,7 @@ Widget _primaryBtn({
         height: 36.sp,
         decoration: BoxDecoration(
           color: AppColors.primary,
-          borderRadius: BorderRadius.circular(8.r),
+          borderRadius: AppRadius.containerR,
         ),
         child: Center(
           child: Text(
@@ -122,7 +124,7 @@ Widget _secondaryBtn({
         height: 36.sp,
         decoration: BoxDecoration(
           color: AppColors.greyDark,
-          borderRadius: BorderRadius.circular(8.r),
+          borderRadius: AppRadius.containerR,
         ),
         child: Center(
           child: Text(

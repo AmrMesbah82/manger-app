@@ -11,12 +11,15 @@ import 'dart:math';
 
 import 'package:dartz/dartz.dart' hide State;
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:manger_plus/core/constants/app_constants.dart';
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/custom/2-custom_textfield.dart';
 import 'package:manger_plus/core/network/app_failure.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/section.dart';
 import 'package:manger_plus/features/console/c1_shell/presentation/ui/widgets/choice_widgets.dart';
@@ -205,7 +208,7 @@ class _PersonEditorDialogState extends State<PersonEditorDialog> {
         children: <Widget>[
           if (_error != null) ...<Widget>[
             InfoBanner.error(_error!),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
           ],
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -218,7 +221,7 @@ class _PersonEditorDialogState extends State<PersonEditorDialog> {
                   errorText: _nameError,
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: CustomTextField(
                   controller: _phone,
@@ -228,7 +231,7 @@ class _PersonEditorDialogState extends State<PersonEditorDialog> {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           CustomTextField(
             controller: _email,
             label: s.email,
@@ -238,7 +241,7 @@ class _PersonEditorDialogState extends State<PersonEditorDialog> {
             errorText: _emailError,
           ),
           if (_isCreate) ...<Widget>[
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             CustomTextField(
               controller: _password,
               label: s.password,
@@ -255,7 +258,7 @@ class _PersonEditorDialogState extends State<PersonEditorDialog> {
 
           // ── Teacher ─────────────────────────────────────────────────────
           if (widget.role == UserRole.teacher) ...<Widget>[
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             CustomTextField(controller: _subject, label: s.subject, hint: s.subjectHint),
             FormLabel(s.teachesSections),
             ChoiceWrap<String>(
@@ -268,10 +271,10 @@ class _PersonEditorDialogState extends State<PersonEditorDialog> {
             ),
             FormLabel(s.permissions),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 4.h),
               decoration: BoxDecoration(
                 color: AppColors.background,
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: AppRadius.containerR,
               ),
               child: Column(
                 children: <Widget>[
@@ -321,7 +324,7 @@ class _PersonEditorDialogState extends State<PersonEditorDialog> {
             ),
           ],
 
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           SwitchRow(
             icon: Icons.power_settings_new_rounded,
             title: s.accountActive,

@@ -16,6 +16,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:get_storage/get_storage.dart';
 import './app_font_weights.dart';
 
@@ -54,7 +55,7 @@ abstract class AppTheme {
     ),
     buttonTheme: ButtonThemeData(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8.r)),
+        borderRadius: BorderRadius.all(AppRadius.buttonRadius),
       ),
     ),
     datePickerTheme: DatePickerThemeData(
@@ -65,7 +66,7 @@ abstract class AppTheme {
       backgroundColor: AppColors.card,
       todayBackgroundColor: WidgetStatePropertyAll(AppColors.card),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8.r)),
+        borderRadius: BorderRadius.all(AppRadius.containerRadius),
       ),
       dayStyle: StyleText.fontSize14Weight500,
       dayBackgroundColor: WidgetStateProperty.resolveWith(
@@ -105,7 +106,7 @@ abstract class AppTheme {
       dividerColor: AppColors.secondaryPrimary,
       dayShape: WidgetStatePropertyAll(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.r),
+          borderRadius: AppRadius.containerR,
         ),
       ),
       todayForegroundColor: WidgetStateProperty.all(
@@ -144,7 +145,7 @@ abstract class AppTheme {
     ),
     buttonTheme: ButtonThemeData(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8.r)),
+        borderRadius: BorderRadius.all(AppRadius.buttonRadius),
       ),
     ),
     datePickerTheme: DatePickerThemeData(
@@ -155,7 +156,7 @@ abstract class AppTheme {
       backgroundColor: AppColors.card,
       todayBackgroundColor: WidgetStatePropertyAll(AppColors.card),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8.r)),
+        borderRadius: BorderRadius.all(AppRadius.containerRadius),
       ),
       dayStyle: StyleText.fontSize14Weight500,
       dayBackgroundColor: WidgetStateProperty.resolveWith(
@@ -195,7 +196,7 @@ abstract class AppTheme {
       dividerColor: AppColors.secondaryPrimary,
       dayShape: WidgetStatePropertyAll(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.r),
+          borderRadius: AppRadius.containerR,
         ),
       ),
       todayForegroundColor: WidgetStateProperty.all(

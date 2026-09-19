@@ -22,6 +22,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 
 class CustomSegmentedTabs extends StatelessWidget {
@@ -75,7 +77,7 @@ class CustomSegmentedTabs extends StatelessWidget {
         borderRadius: BorderRadius.circular(borderRadius ?? 8),
         color: containerColor ?? AppColors.field,
       ),
-      padding: containerPadding ?? EdgeInsets.all(8.sp),
+      padding: containerPadding ?? EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 8.sp),
       child: Row(
         mainAxisSize: equalWidth ? MainAxisSize.max : MainAxisSize.min,
         children: List<Widget>.generate(tabs.length * 2 - 1, (int index) {
@@ -106,21 +108,19 @@ class CustomSegmentedTabs extends StatelessWidget {
         onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: AppRadius.buttonR,
             color: isSelected
                 ? (selectedColor ?? AppColors.primary)
                 : (unselectedColor ?? AppColors.field),
           ),
           padding: EdgeInsets.symmetric(
-            vertical: tabVerticalPadding ?? 6.sp,
-            horizontal: tabHorizontalPadding ?? 6.sp,
-          ),
+            vertical: tabVerticalPadding ?? 6.sp,horizontal: AppPadding.h),
           child: Center(
             child: FittedBox(
               child: Text(
                 title,
                 style: (textStyle ?? StyleText.fontSize14Weight600).copyWith(
-                  height: 1,
+                  height: 1.h,
                   color: isSelected
                       ? (selectedTextColor ?? AppColors.textButton)
                       : (unselectedTextColor ?? AppColors.secondaryText),

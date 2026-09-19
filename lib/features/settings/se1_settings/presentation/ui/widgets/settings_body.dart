@@ -18,6 +18,8 @@ import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/custom/61-custom_color_picker.dart';
 import 'package:manger_plus/core/helper/main_helper/platform_helper.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/core/theme/haptic_controller.dart';
 import 'package:manger_plus/core/theme/theme_controller.dart';
@@ -47,7 +49,7 @@ class SettingsBody extends StatelessWidget {
         children: <Widget>[
           // ── Account ─────────────────────────────────────────────────────
           Surface(
-            padding: EdgeInsets.all(18.r),
+            padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 18.r),
             child: Row(
               children: <Widget>[
                 AppAvatar(name: user.displayName, size: 56),
@@ -62,10 +64,10 @@ class SettingsBody extends StatelessWidget {
                               .copyWith(color: AppColors.secondaryText)),
                       SizedBox(height: 6.h),
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 3.h),
+                        padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 3.h),
                         decoration: BoxDecoration(
                           color: AppColors.primary.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20.r),
+                          borderRadius: AppRadius.buttonR,
                         ),
                         child: Text(
                           user.role.label(context),
@@ -124,7 +126,7 @@ class SettingsBody extends StatelessWidget {
             SizedBox(height: 16.h),
             _Group(title: s.branding, children: <Widget>[
               Padding(
-                padding: EdgeInsets.all(14.r),
+                padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 14.r),
                 child: CustomColorPickerSection(
                   primaryColor: theme.primaryColor.value,
                   secondaryColor: theme.secondaryColor.value,
@@ -205,7 +207,7 @@ class _Group extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Padding(
-          padding: EdgeInsetsDirectional.only(start: 6.w, bottom: 8.h),
+          padding: EdgeInsetsDirectional.only(start: AppPadding.h, bottom: 8.h),
           child: Text(title,
               style: StyleText.fontSize13Weight600.copyWith(color: AppColors.secondaryText)),
         ),

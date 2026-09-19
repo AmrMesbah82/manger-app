@@ -12,6 +12,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/attendance_record.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/submission.dart';
@@ -83,7 +85,7 @@ class SummaryCards extends StatelessWidget {
       );
       return Expanded(
         child: Surface(
-          padding: EdgeInsets.all(compact ? 14.r : 16.r),
+          padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: compact ? 14.r : 16.r),
           child: compact
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -130,7 +132,7 @@ class ResultTile extends StatelessWidget {
     final Color color = gradeColor(x.percent);
     return Surface(
       onTap: onTap,
-      padding: EdgeInsets.all(14.r),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 14.r),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -168,7 +170,7 @@ class ResultTile extends StatelessWidget {
           ),
           SizedBox(height: 10.h),
           ClipRRect(
-            borderRadius: BorderRadius.circular(6.r),
+            borderRadius: AppRadius.containerR,
             child: LinearProgressIndicator(
               value: x.percent / 100,
               minHeight: 6.h,
@@ -220,7 +222,7 @@ class AttendanceCard extends StatelessWidget {
         .toList();
 
     return Surface(
-      padding: EdgeInsets.all(16.r),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 16.r),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -257,7 +259,7 @@ class AttendanceCard extends StatelessWidget {
                     height: 22.r,
                     decoration: BoxDecoration(
                       color: r.status.color.withOpacity(0.85),
-                      borderRadius: BorderRadius.circular(6.r),
+                      borderRadius: AppRadius.containerR,
                     ),
                   ),
                 ),

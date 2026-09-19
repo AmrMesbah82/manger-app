@@ -142,7 +142,7 @@ class _SplashScreenState extends State<SplashScreen>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  const BrandMark(size: 84, vertical: true, onDark: true),
+                  BrandMark(size: 84, vertical: true, onDark: true),
                   SizedBox(height: 36.h),
                   SizedBox(
                     width: 26.r,

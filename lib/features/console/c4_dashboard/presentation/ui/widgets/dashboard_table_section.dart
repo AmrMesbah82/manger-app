@@ -16,11 +16,13 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:manger_plus/core/custom/10-custom_tabs.dart';
 import 'package:manger_plus/core/custom/100-custom_data_table.dart';
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/attendance_record.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/submission.dart';
@@ -73,9 +75,9 @@ class DashboardTableSection extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 14),
+        SizedBox(height: 14.h),
         ClipRRect(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: AppRadius.containerR,
           child: Container(
             color: AppColors.card,
             // The page scrolls, so the table must not: it shrink-wraps and
@@ -111,7 +113,7 @@ class DashboardTableSection extends StatelessWidget {
           cell: (_, Submission x) => Row(
             children: <Widget>[
               AppAvatar(name: x.studentName, size: 30),
-              const SizedBox(width: 10),
+              SizedBox(width: 10.w),
               Expanded(
                 child: AppTableCellText(x.studentName, emphasis: true),
               ),
@@ -131,8 +133,8 @@ class DashboardTableSection extends StatelessWidget {
           sortKey: kSortAssessment,
           cell: (_, Submission x) => Row(
             children: <Widget>[
-              AppIcon(x.contentType.icon, size: 16, color: x.contentType.color),
-              const SizedBox(width: 8),
+              AppIcon(x.contentType.icon, size: 16.sp, color: x.contentType.color),
+              SizedBox(width: 8.w),
               Expanded(child: AppTableCellText(x.contentTitle)),
             ],
           ),
@@ -183,7 +185,7 @@ class DashboardTableSection extends StatelessWidget {
           cell: (_, AttendanceRecord x) => Row(
             children: <Widget>[
               AppAvatar(name: x.studentName, size: 30),
-              const SizedBox(width: 10),
+              SizedBox(width: 10.w),
               Expanded(
                 child: AppTableCellText(x.studentName, emphasis: true),
               ),
@@ -210,8 +212,8 @@ class DashboardTableSection extends StatelessWidget {
           sortKey: kSortStatus,
           cell: (BuildContext context, AttendanceRecord x) => Row(
             children: <Widget>[
-              AppIcon(x.status.icon, size: 16, color: x.status.color),
-              const SizedBox(width: 8),
+              AppIcon(x.status.icon, size: 16.sp, color: x.status.color),
+              SizedBox(width: 8.w),
               Expanded(
                 child: AppTableCellText(
                   x.status.label(context),

@@ -27,6 +27,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/custom/111-app_svg_icon.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/attendance_record.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/learning_content.dart';
@@ -279,15 +281,14 @@ class _Header extends StatelessWidget {
         ),
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(28.r)),
       ),
-      padding: EdgeInsets.fromLTRB(
-          side + 4.w, MediaQuery.of(context).padding.top + 16.h, side + 4.w, 20.h),
+      padding: EdgeInsets.fromLTRB(AppPadding.h, MediaQuery.of(context).padding.top + 16.h, AppPadding.h, 20.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Row(
             children: <Widget>[
               Container(
-                padding: EdgeInsets.all(2.r),
+                padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 2.r),
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.circle,
@@ -318,10 +319,10 @@ class _Header extends StatelessWidget {
                   if (state.section != null)
                     Container(
                       margin: EdgeInsets.only(top: 6.h),
-                      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 3.h),
+                      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 3.h),
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(20.r),
+                        borderRadius: AppRadius.buttonR,
                       ),
                       child: Text(state.section!.title,
                           style: StyleText.fontSize11Weight600.copyWith(color: Colors.white)),
@@ -338,7 +339,7 @@ class _Header extends StatelessWidget {
             ),
             SizedBox(height: 8.h),
             ClipRRect(
-              borderRadius: BorderRadius.circular(8.r),
+              borderRadius: AppRadius.containerR,
               child: LinearProgressIndicator(
                 value: done / total,
                 minHeight: 8.h,
@@ -387,7 +388,7 @@ class _FocusCard extends StatelessWidget {
 
     if (item == null) {
       return Surface(
-        padding: EdgeInsets.all(18.r),
+        padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 18.r),
         child: Row(
           children: <Widget>[
             AppIcon(Icons.check_circle_rounded, color: const Color(0xff10B981), size: 40.r),
@@ -425,17 +426,17 @@ class _FocusCard extends StatelessWidget {
       padding: EdgeInsets.zero,
       onTap: () => StudentHomeScreen.open(context, state, c),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: AppRadius.containerR,
         child: Stack(
           children: <Widget>[
             PositionedDirectional(
               start: 0,
-              top: 0,
-              bottom: 0,
-              child: Container(width: 4, color: accent),
+              top: 0.h,
+              bottom: 0.h,
+              child: Container(width: 4.w, color: accent),
             ),
             Padding(
-        padding: EdgeInsets.all(16.r),
+        padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 16.r),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -449,10 +450,10 @@ class _FocusCard extends StatelessWidget {
                 ),
                 if (due != null)
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
+                    padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 3.h),
                     decoration: BoxDecoration(
                       color: _dueColor(c).withOpacity(0.14),
-                      borderRadius: BorderRadius.circular(20.r),
+                      borderRadius: AppRadius.containerR,
                     ),
                     child: Text(due,
                         style: StyleText.fontSize11Weight600.copyWith(color: _dueColor(c))),
@@ -520,7 +521,7 @@ class _TodayCard extends StatelessWidget {
     final List<AttendanceRecord> last7 = days.take(7).toList().reversed.toList();
 
     return Surface(
-      padding: EdgeInsets.all(14.r),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 14.r),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -567,10 +568,10 @@ class _TodayCard extends StatelessWidget {
                 Expanded(
                   child: Container(
                     height: 8.h,
-                    margin: EdgeInsetsDirectional.only(end: 3.w),
+                    margin: EdgeInsetsDirectional.only(end: AppPadding.h),
                     decoration: BoxDecoration(
                       color: r.status.color,
-                      borderRadius: BorderRadius.circular(4.r),
+                      borderRadius: AppRadius.containerR,
                     ),
                   ),
                 ),
@@ -578,10 +579,10 @@ class _TodayCard extends StatelessWidget {
                 Expanded(
                   child: Container(
                     height: 8.h,
-                    margin: EdgeInsetsDirectional.only(end: 3.w),
+                    margin: EdgeInsetsDirectional.only(end: AppPadding.h),
                     decoration: BoxDecoration(
                       color: AppColors.secondaryText.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(4.r),
+                      borderRadius: AppRadius.containerR,
                     ),
                   ),
                 ),
@@ -608,7 +609,7 @@ class _LatestResultCard extends StatelessWidget {
 
     if (last == null) {
       return Surface(
-        padding: EdgeInsets.all(14.r),
+        padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 14.r),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -650,7 +651,7 @@ class _LatestResultCard extends StatelessWidget {
     String fmt(double v) => v == v.roundToDouble() ? v.round().toString() : v.toStringAsFixed(1);
 
     return Surface(
-      padding: EdgeInsets.all(14.r),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 14.r),
       onTap: () => context.read<StudentTabCubit>().select(2),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -696,7 +697,7 @@ class _LatestResultCard extends StatelessWidget {
             )
           else
             ClipRRect(
-              borderRadius: BorderRadius.circular(6.r),
+              borderRadius: AppRadius.containerR,
               child: LinearProgressIndicator(
                 value: pct / 100,
                 minHeight: 6.h,
@@ -742,13 +743,13 @@ class _GlanceStrip extends StatelessWidget {
         );
 
     Widget divider() => Container(
-          width: 1,
+          width: 1.w,
           height: 36.h,
           color: AppColors.secondaryText.withOpacity(0.15),
         );
 
     return Surface(
-      padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 6.w),
+      padding: EdgeInsets.symmetric(vertical: 14.h,horizontal: AppPadding.h),
       child: Row(
         children: <Widget>[
           cell(Icons.video_library_outlined, const Color(0xff3B82F6), '${state.newThisWeek}',
@@ -784,7 +785,7 @@ class _UpNextRow extends StatelessWidget {
     final Color dueColor = _dueColor(content);
 
     return Surface(
-      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 12.h),
       onTap: onTap,
       child: Row(
         children: <Widget>[
@@ -849,7 +850,7 @@ class _LessonCard extends StatelessWidget {
     return SizedBox(
       width: width,
       child: Surface(
-        padding: EdgeInsets.all(8.r),
+        padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 8.r),
         onTap: onTap,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -859,7 +860,7 @@ class _LessonCard extends StatelessWidget {
               height: 88.h,
               decoration: BoxDecoration(
                 color: AppColors.background,
-                borderRadius: BorderRadius.circular(12.r),
+                borderRadius: AppRadius.containerR,
               ),
               child: Stack(
                 children: <Widget>[
@@ -880,7 +881,7 @@ class _LessonCard extends StatelessWidget {
             ),
             SizedBox(height: 10.h),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w),
+              padding: EdgeInsets.symmetric(horizontal: AppPadding.h),
               child: Text(
                 c.title,
                 maxLines: 2,
@@ -890,7 +891,7 @@ class _LessonCard extends StatelessWidget {
             ),
             if (meta.isNotEmpty)
               Padding(
-                padding: EdgeInsets.fromLTRB(4.w, 2.h, 4.w, 0),
+                padding: EdgeInsets.fromLTRB(AppPadding.h, 2.h, AppPadding.h, 0),
                 child: Text(
                   meta,
                   maxLines: 1,
@@ -901,7 +902,7 @@ class _LessonCard extends StatelessWidget {
               ),
             const Spacer(),
             Padding(
-              padding: EdgeInsets.fromLTRB(4.w, 6.h, 4.w, 2.h),
+              padding: EdgeInsets.fromLTRB(AppPadding.h, 6.h, AppPadding.h, 2.h),
               child: Row(
                 children: <Widget>[
                   AppIcon(Icons.event_outlined, size: 13.r, color: AppColors.secondaryText),
@@ -935,10 +936,10 @@ class _Tag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 2.h),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 2.h),
       decoration: BoxDecoration(
         color: AppColors.card,
-        borderRadius: BorderRadius.circular(8.r),
+        borderRadius: AppRadius.containerR,
       ),
       child: Text(text, style: StyleText.fontSize10Weight600.copyWith(color: color)),
     );
@@ -958,12 +959,12 @@ class _BrowseChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: AppColors.card,
-      borderRadius: BorderRadius.circular(22.r),
+      borderRadius: AppRadius.buttonR,
       child: InkWell(
-        borderRadius: BorderRadius.circular(22.r),
+        borderRadius: AppRadius.buttonR,
         onTap: onTap,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12.w),
+          padding: EdgeInsets.symmetric(horizontal: AppPadding.h),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -972,10 +973,10 @@ class _BrowseChip extends StatelessWidget {
               Text(type.plural(context), style: StyleText.fontSize13Weight600),
               SizedBox(width: 6.w),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 1.h),
+                padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 1.h),
                 decoration: BoxDecoration(
                   color: AppColors.background,
-                  borderRadius: BorderRadius.circular(10.r),
+                  borderRadius: AppRadius.buttonR,
                 ),
                 child: Text('$count',
                     style: StyleText.fontSize11Weight600.copyWith(color: type.color)),
@@ -1015,7 +1016,7 @@ class _SectionTitle extends StatelessWidget {
               TextButton(
                 onPressed: onAction,
                 style: TextButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w),
+                  padding: EdgeInsets.symmetric(horizontal: AppPadding.h),
                   minimumSize: Size(0, 28.h),
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),

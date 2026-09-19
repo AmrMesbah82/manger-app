@@ -23,6 +23,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manger_plus/core/custom/16-custom_card_styles.dart';
 import 'package:manger_plus/core/custom/24-custom_chart_card.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 
 /// Rewrite the ASCII digits in [value] as Arabic-Indic numerals (٠١٢…) when
@@ -192,7 +193,7 @@ class DonutChartCard extends StatelessWidget {
                           ),
                           titleStyle: StyleText.fontSize10Weight500.copyWith(
                             color: AppColors.textButton,
-                            height: 1,
+                            height: 1.h,
                           ),
                           titlePositionPercentageOffset: 0.5,
                         ),
@@ -220,7 +221,7 @@ class DonutChartCard extends StatelessWidget {
                 ),
               if (centerLabel != null)
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6.w),
+                  padding: EdgeInsets.symmetric(horizontal: AppPadding.h),
                   child: Text(
                     centerLabel!,
                     style: CardStyles.label(10),

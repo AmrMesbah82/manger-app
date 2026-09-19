@@ -12,9 +12,11 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/onboarding/o2_authentication/domain/entities/app_user.dart';
 import 'package:manger_plus/features/onboarding/o2_authentication/domain/enums/teacher_permission.dart';
@@ -29,26 +31,26 @@ class PermissionsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Surface(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 20.sp),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(S.of(context).yourPermissions,
               style: StyleText.fontSize16Weight600),
-          const SizedBox(height: 4),
+          SizedBox(height: 4.h),
           Text(
             S.of(context).yourPermissionsSub,
             style: StyleText.fontSize13Weight400
                 .copyWith(color: AppColors.secondaryText),
           ),
-          const SizedBox(height: 14),
+          SizedBox(height: 14.h),
           Wrap(
-            spacing: 8,
-            runSpacing: 8,
+            spacing: 8.w,
+            runSpacing: 8.h,
             children: <Widget>[
               for (final TeacherPermission p in teacher.permissions)
                 Chip(
-                  avatar: AppIcon(p.icon, size: 16, color: AppColors.primary),
+                  avatar: AppIcon(p.icon, size: 16.sp, color: AppColors.primary),
                   label: Text(p.label(context),
                       style: StyleText.fontSize12Weight600),
                   backgroundColor: AppColors.primary.withOpacity(0.08),

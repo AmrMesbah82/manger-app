@@ -15,6 +15,7 @@ import 'package:video_player/video_player.dart';
 
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/learning_content.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/submission.dart';
@@ -69,13 +70,13 @@ class _Details extends StatelessWidget {
     final S s = S.of(context);
     final LearningContent c = content;
     return Padding(
-      padding: EdgeInsets.all(20.r),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 20.r),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(
             children: <Widget>[
-              ContentTypeIcon(type: c.type, size: 40),
+              ContentTypeIcon(type: c.type, size: 40.sp),
               SizedBox(width: 12.w),
               Expanded(
                 child: Column(
@@ -218,9 +219,9 @@ class _VideoViewerScreenState extends State<VideoViewerScreen> {
                                 ),
                               ),
                               Positioned(
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
+                                left: 0.w,
+                                right: 0.w,
+                                bottom: 0.h,
                                 child: Column(
                                   children: <Widget>[
                                     VideoProgressIndicator(
@@ -233,7 +234,7 @@ class _VideoViewerScreenState extends State<VideoViewerScreen> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                                      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 4.h),
                                       child: Row(
                                         children: <Widget>[
                                           Text(

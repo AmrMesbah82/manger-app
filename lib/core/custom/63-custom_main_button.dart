@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 // REMOVED_MODULE: import 'package:manger_plus/features/external/services_mangment_module/core/new_theme.dart';
 
 class MainCustomButton extends StatelessWidget {
@@ -40,7 +41,7 @@ class MainCustomButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: buttonColor ?? AppColors.primary,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: AppRadius.buttonR,
           ),
         ),
         child: Row(

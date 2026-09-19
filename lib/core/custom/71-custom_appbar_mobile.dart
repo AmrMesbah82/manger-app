@@ -13,6 +13,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manger_plus/core/constants/app_assets.dart';
 import 'package:manger_plus/core/custom/32-custom_svg.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/core/theme/haptic_controller.dart';
 
@@ -69,7 +71,7 @@ class CustomAppBarMobile extends StatelessWidget implements PreferredSizeWidget 
       decoration: BoxDecoration(
         color: backgroundColor ?? AppColors.appBar,
         border: showDivider
-            ? Border(bottom: BorderSide(color: AppColors.border, width: 1))
+            ? Border(bottom: BorderSide(color: AppColors.border, width: 1.w))
             : null,
       ),
       child: SafeArea(
@@ -144,7 +146,7 @@ class _CircleIconButton extends StatelessWidget {
         height: 36.sp,
         decoration: BoxDecoration(
           color: AppColors.card,
-          borderRadius: BorderRadius.circular(8.r),
+          borderRadius: AppRadius.buttonR,
         ),
         child: CustomSvgImage(
           assetPath: assetPath,
@@ -174,7 +176,7 @@ class AppBarActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 8.w),
+      padding: EdgeInsets.only(left: AppPadding.h),
       child: GestureDetector(
         onTap: () {
           HapticController.low();
@@ -186,7 +188,7 @@ class AppBarActionButton extends StatelessWidget {
           height: 36.sp,
           decoration: BoxDecoration(
             color: AppColors.card,
-            borderRadius: BorderRadius.circular(8.r),
+            borderRadius: AppRadius.buttonR,
           ),
           child: CustomSvgImage(
             assetPath: assetPath,

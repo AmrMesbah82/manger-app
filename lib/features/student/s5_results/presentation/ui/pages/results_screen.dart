@@ -12,6 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/learning_content.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/submission.dart';
@@ -36,7 +37,7 @@ class ResultsScreen extends StatelessWidget {
               child: ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 720.w),
                 child: ListView(
-                  padding: EdgeInsets.all(16.r),
+                  padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 16.r),
                   children: <Widget>[
                     Text(s.myProgress, style: StyleText.fontSize25Weight600),
                     SizedBox(height: 16.h),

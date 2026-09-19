@@ -57,6 +57,8 @@ import 'package:manger_plus/core/custom/83-loading.dart';
 import 'package:manger_plus/core/custom/11-custom_confirm_dialog.dart';
 import 'package:manger_plus/core/custom/2-custom_textfield.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/core/custom/111-app_svg_icon.dart';
 
@@ -346,14 +348,14 @@ class _ExportDialogState extends State<_ExportDialog> {
 
     return Dialog(
       backgroundColor: AppColors.transparent,
-      insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+      insetPadding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 24.h),
       child: Container(
         width: 411.sp,
         decoration: BoxDecoration(
           color: light ? AppColors.card : AppColors.background,
-          borderRadius: BorderRadius.circular(8.r),
+          borderRadius: AppRadius.containerR,
         ),
-        padding: EdgeInsets.all(20.sp),
+        padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 20.sp),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -460,21 +462,21 @@ class DialogShell extends StatelessWidget {
 
     return Dialog(
       backgroundColor: AppColors.transparent,
-      insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+      insetPadding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 24.h),
       child: Container(
         width: width,
         decoration: BoxDecoration(
           color: light ? AppColors.card : AppColors.background,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: AppRadius.containerR,
           boxShadow: <BoxShadow>[
             BoxShadow(
               color: AppColors.totalBlack.withOpacity(0.08),
-              blurRadius: 20,
+              blurRadius: 20.sp,
               offset: const Offset(-3, 4),
             ),
           ],
         ),
-        padding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
+        padding: EdgeInsets.fromLTRB(AppPadding.h, 18.h, AppPadding.h, 18.h),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -485,7 +487,7 @@ class DialogShell extends StatelessWidget {
               children: <Widget>[
                 if (icon != null) ...<Widget>[
                   TypeBadge(icon: icon!, color: accent, size: 38),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                 ],
                 Expanded(
                   child: Column(
@@ -493,7 +495,7 @@ class DialogShell extends StatelessWidget {
                     children: <Widget>[
                       Text(title, style: StyleText.fontSize18Weight600),
                       if (subtitle != null) ...<Widget>[
-                        const SizedBox(height: 2),
+                        SizedBox(height: 2.h),
                         Text(
                           subtitle!,
                           style: StyleText.fontSize13Weight400
@@ -506,12 +508,12 @@ class DialogShell extends StatelessWidget {
                 IconButton(
                   tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
                   icon: AppIcon(Icons.close_rounded,
-                      size: 20, color: AppColors.secondaryText),
+                      size: 20.sp, color: AppColors.secondaryText),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
 
             // ── Body ────────────────────────────────────────────────────
             Flexible(
@@ -520,12 +522,12 @@ class DialogShell extends StatelessWidget {
 
             // ── Actions ─────────────────────────────────────────────────
             if (actions.isNotEmpty) ...<Widget>[
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   for (int i = 0; i < actions.length; i++) ...<Widget>[
-                    if (i > 0) const SizedBox(width: 10),
+                    if (i > 0) SizedBox(width: 10.w),
                     actions[i],
                   ],
                 ],

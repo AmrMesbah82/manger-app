@@ -8,12 +8,14 @@
 
 import 'package:dartz/dartz.dart' hide State;
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:manger_plus/core/custom/11-custom_confirm_dialog.dart';
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/custom/2-custom_textfield.dart';
 import 'package:manger_plus/core/network/app_failure.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/data/repository/academy_repository.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/section.dart';
@@ -97,7 +99,7 @@ class _SectionsPageState extends State<SectionsPage> {
                   if (!snap.hasData) return const AppLoading();
                   if (snap.data!.isEmpty) {
                     return Padding(
-                      padding: const EdgeInsets.only(top: 40),
+                      padding: EdgeInsets.only(top: 40.h),
                       child: AppEmptyView(title: s.noSectionsTitle, subtitle: s.noSectionsSub),
                     );
                   }
@@ -152,14 +154,14 @@ class _SectionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final S s = S.of(context);
     return Surface(
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 18.sp),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(
             children: <Widget>[
               const TypeBadge(icon: Icons.groups_2_rounded, color: Color(0xff3B82F6)),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,12 +179,12 @@ class _SectionCard extends StatelessWidget {
               IconButton(
                 tooltip: s.edit,
                 onPressed: onEdit,
-                icon: AppIcon(Icons.edit_outlined, color: AppColors.primary, size: 20),
+                icon: AppIcon(Icons.edit_outlined, color: AppColors.primary, size: 20.sp),
               ),
               IconButton(
                 tooltip: s.delete,
                 onPressed: () => onDelete(students.length),
-                icon: AppIcon(Icons.delete_outline_rounded, color: AppColors.red, size: 20),
+                icon: AppIcon(Icons.delete_outline_rounded, color: AppColors.red, size: 20.sp),
               ),
             ],
           ),
@@ -193,7 +195,7 @@ class _SectionCard extends StatelessWidget {
             child: section.description.isEmpty
                 ? const SizedBox.shrink()
                 : Padding(
-                    padding: const EdgeInsets.only(top: 10),
+                    padding: EdgeInsets.only(top: 10.h),
                     child: Text(
                       section.description,
                       maxLines: 2,
@@ -205,16 +207,16 @@ class _SectionCard extends StatelessWidget {
           ),
           Row(
             children: <Widget>[
-              AppIcon(Icons.backpack_outlined, size: 16, color: AppColors.secondaryText),
-              const SizedBox(width: 6),
+              AppIcon(Icons.backpack_outlined, size: 16.sp, color: AppColors.secondaryText),
+              SizedBox(width: 6.w),
               Text(s.studentsCount('${students.length}'), style: StyleText.fontSize13Weight500),
-              const SizedBox(width: 16),
-              AppIcon(Icons.co_present_outlined, size: 16, color: AppColors.secondaryText),
-              const SizedBox(width: 6),
+              SizedBox(width: 16.w),
+              AppIcon(Icons.co_present_outlined, size: 16.sp, color: AppColors.secondaryText),
+              SizedBox(width: 6.w),
               Text(s.teachersCount('${teachers.length}'), style: StyleText.fontSize13Weight500),
             ],
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           // Kept in the layout even when empty, so the counts row above it is
           // at the same height on a section with teachers and one without.
           Text(
@@ -299,7 +301,7 @@ class _SectionDialogState extends State<_SectionDialog> {
         children: <Widget>[
           if (_error != null) ...<Widget>[
             InfoBanner.error(_error!),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
           ],
           CustomTextField(
             controller: _name,
@@ -308,9 +310,9 @@ class _SectionDialogState extends State<_SectionDialog> {
             required: true,
             errorText: _submitted && _name.text.trim().isEmpty ? s.enterName : null,
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           CustomTextField(controller: _level, label: s.level, hint: s.levelHint),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           CustomTextField(
             controller: _description,
             label: s.description,

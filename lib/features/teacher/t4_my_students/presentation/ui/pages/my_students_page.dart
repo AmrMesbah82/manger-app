@@ -9,12 +9,14 @@
 
 import 'package:dartz/dartz.dart' hide State;
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:manger_plus/core/custom/100-custom_data_table.dart';
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/network/app_failure.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/data/repository/academy_repository.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/attendance_record.dart';
@@ -101,11 +103,11 @@ class _MyStudentsViewState extends State<_MyStudentsView> {
                   labelOf: sectionName,
                   onSelected: (String? v) => setState(() => _sectionFilter = v),
                 ),
-                const SizedBox(height: 14),
+                SizedBox(height: 14.h),
               ],
               Expanded(
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: AppRadius.containerR,
                   child: Container(
                     color: AppColors.card,
                     child: StreamBuilder<List<AppUser>>(
@@ -145,7 +147,7 @@ class _MyStudentsViewState extends State<_MyStudentsView> {
                               cell: (_, AppUser u) => Row(
                                 children: <Widget>[
                                   AppAvatar(name: u.displayName, size: 32),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width: 10.w),
                                   Expanded(child: AppTableCellText(u.displayName, emphasis: true)),
                                 ],
                               ),
@@ -267,11 +269,11 @@ class _StudentDialogState extends State<_StudentDialog> {
                 children: <Widget>[
                   for (final AppUser p in parents)
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
+                      padding: EdgeInsets.only(bottom: 8.h),
                       child: Row(
                         children: <Widget>[
                           AppAvatar(name: p.displayName, size: 34),
-                          const SizedBox(width: 10),
+                          SizedBox(width: 10.w),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -313,8 +315,8 @@ class _StudentDialogState extends State<_StudentDialog> {
               }
               final int attended = list.where((AttendanceRecord r) => r.status.attended).length;
               return Wrap(
-                spacing: 16,
-                runSpacing: 8,
+                spacing: 16.w,
+                runSpacing: 8.h,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: <Widget>[
                   Text(s.attendanceRate('${(attended / list.length * 100).round()}'),
@@ -323,8 +325,8 @@ class _StudentDialogState extends State<_StudentDialog> {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        AppIcon(a.icon, color: a.color, size: 16),
-                        const SizedBox(width: 4),
+                        AppIcon(a.icon, color: a.color, size: 16.sp),
+                        SizedBox(width: 4.w),
                         Text('${a.label(context)}: ${list.where((AttendanceRecord r) => r.status == a).length}',
                             style: StyleText.fontSize13Weight500),
                       ],

@@ -41,6 +41,8 @@ import 'package:manger_plus/core/constants/app_assets.dart';
 import 'package:manger_plus/core/custom/2-custom_textfield.dart';
 import 'package:manger_plus/core/custom/32-custom_svg.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/core/theme/haptic_controller.dart';
 import 'package:manger_plus/generated/l10n.dart';
@@ -145,10 +147,10 @@ class AppSearchTextField extends StatelessWidget {
       textAlign: textAlign ?? TextAlign.start,
       textDirection: textDirection,
       fillColor: fillColor ?? AppColors.card,
-      borderRadius: borderRadius ?? BorderRadius.circular(8.r),
+      borderRadius: borderRadius ?? AppRadius.buttonR,
       // 8.sp vertical against a 38-tall box leaves 22 for a 12-14.sp line,
       // which fits — so the text centres instead of being clipped low.
-      contentPadding: EdgeInsets.symmetric(horizontal: 12.sp, vertical: 13.sp),
+      contentPadding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 13.sp),
       hintStyle: StyleText.fontSize13Weight400.copyWith(
         color: AppColors.secondaryText,
       ),

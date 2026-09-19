@@ -15,6 +15,8 @@ import 'package:intl/intl.dart';
 
 import 'package:manger_plus/core/custom/89-custom_empty_state.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/generated/l10n.dart';
 import 'package:manger_plus/core/custom/111-app_svg_icon.dart';
@@ -107,16 +109,16 @@ class AppButton extends StatelessWidget {
       child: Material(
         color: background,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.r),
+          borderRadius: AppRadius.buttonR,
           side: border ?? BorderSide.none,
         ),
         child: InkWell(
-          borderRadius: BorderRadius.circular(12.r),
+          borderRadius: AppRadius.buttonR,
           onTap: enabled ? onPressed : null,
           child: SizedBox(
             height: height,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: dense ? 14.w : 20.w),
+              padding: EdgeInsets.symmetric(horizontal: AppPadding.h),
               child: Center(widthFactor: 1, child: content),
             ),
           ),
@@ -252,7 +254,7 @@ class AppLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(24.r),
+        padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 24.r),
         child: CircularProgressIndicator(
           strokeWidth: 2.4,
           valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
@@ -272,7 +274,7 @@ class AppErrorView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(24.r),
+        padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 24.r),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -311,7 +313,7 @@ class AppEmptyView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.w),
+        padding: EdgeInsets.symmetric(horizontal: AppPadding.h),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -359,10 +361,10 @@ class InfoBanner extends StatelessWidget {
     final Color c = color ?? AppColors.primary;
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(12.r),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 12.r),
       decoration: BoxDecoration(
         color: c.withOpacity(0.08),
-        borderRadius: BorderRadius.circular(12.r),
+        borderRadius: AppRadius.containerR,
         border: Border.all(color: c.withOpacity(0.25)),
       ),
       child: Row(
@@ -388,7 +390,7 @@ class Surface extends StatelessWidget {
     this.padding,
     this.onTap,
     this.color,
-    this.radius = 16,
+    this.radius = AppRadius.container,
   });
 
   final Widget child;
@@ -405,7 +407,7 @@ class Surface extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(radius.r),
         onTap: onTap,
-        child: Padding(padding: padding ?? EdgeInsets.all(16.r), child: child),
+        child: Padding(padding: padding ?? EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 16.r), child: child),
       ),
     );
   }

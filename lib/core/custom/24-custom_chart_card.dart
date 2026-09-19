@@ -29,6 +29,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manger_plus/core/custom/16-custom_card_styles.dart';
 import 'package:manger_plus/core/custom/32-custom_svg.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 
 /// Height of a paired chart card on the console overview.
 ///
@@ -145,7 +147,7 @@ class ChartCard extends StatelessWidget {
     return Container(
       width: width ?? double.infinity,
       height: height,
-      padding: padding ?? EdgeInsets.all(20.sp),
+      padding: padding ?? EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 20.sp),
       decoration: BoxDecoration(
         color: AppColors.card,
         borderRadius: CardStyles.radius(),
@@ -344,12 +346,12 @@ class ChartTabPill extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(20.r),
+      borderRadius: AppRadius.buttonR,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+        padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 4.h),
         decoration: BoxDecoration(
           color: color ?? AppColors.primary,
-          borderRadius: BorderRadius.circular(20.r),
+          borderRadius: AppRadius.buttonR,
         ),
         child: Text(
           text,

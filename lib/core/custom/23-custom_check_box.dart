@@ -17,6 +17,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manger_plus/core/constants/app_assets.dart';
 import 'package:manger_plus/core/custom/32-custom_svg.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 
 class CustomCheckBox extends StatelessWidget {
   CustomCheckBox(
@@ -34,7 +35,7 @@ class CustomCheckBox extends StatelessWidget {
         // last outlined control in the app. It is a filled well now — the same
         // "empty box" reading, drawn the way every other surface here is.
         color: isSelected ? AppColors.secondaryPrimary : AppColors.field,
-        borderRadius: BorderRadius.circular(4.r),
+        borderRadius: AppRadius.containerR,
       ),
       child: Center(
         child: CustomSvgImage(

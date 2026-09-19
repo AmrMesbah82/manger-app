@@ -8,9 +8,12 @@
 /// Created: 18/9/2026
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/learning_content.dart';
 import 'package:manger_plus/generated/l10n.dart';
@@ -108,7 +111,7 @@ class _QuestionListEditorState extends State<QuestionListEditor> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         for (int i = 0; i < _drafts.length; i++) _card(context, i),
-        const SizedBox(height: 4),
+        SizedBox(height: 4.h),
         Align(
           alignment: AlignmentDirectional.centerStart,
           child: AppButton(
@@ -132,17 +135,17 @@ class _QuestionListEditorState extends State<QuestionListEditor> {
           isDense: true,
           hintText: hint,
           hintStyle: StyleText.fontSize13Weight400.copyWith(color: AppColors.secondaryText),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          border: OutlineInputBorder(borderRadius: AppRadius.fieldR),
+          contentPadding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 10.h),
         );
 
     return Container(
       key: ObjectKey(d),
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(14),
+      margin: EdgeInsets.only(bottom: 12.h),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 14.sp),
       decoration: BoxDecoration(
         color: AppColors.background,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: AppRadius.containerR,
         border: Border.all(
           color: invalid ? AppColors.red : AppColors.transparent,
         ),
@@ -153,12 +156,12 @@ class _QuestionListEditorState extends State<QuestionListEditor> {
           Row(
             children: <Widget>[
               CircleAvatar(
-                radius: 14,
+                radius: 14.sp,
                 backgroundColor: AppColors.primary,
                 child: Text('${index + 1}',
                     style: StyleText.fontSize12Weight700.copyWith(color: Colors.white)),
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: 10.w),
               Expanded(
                 child: TextField(
                   controller: d.text,
@@ -167,9 +170,9 @@ class _QuestionListEditorState extends State<QuestionListEditor> {
                   decoration: deco(s.questionText),
                 ),
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: 10.w),
               SizedBox(
-                width: 76,
+                width: 76.w,
                 child: TextField(
                   controller: d.points,
                   onChanged: (_) => _emit(),
@@ -183,15 +186,15 @@ class _QuestionListEditorState extends State<QuestionListEditor> {
                 onPressed: _drafts.length == 1
                     ? null
                     : () => _update(() => _disposeLater(_drafts.removeAt(index).dispose)),
-                icon: AppIcon(Icons.delete_outline_rounded, color: AppColors.red, size: 20),
+                icon: AppIcon(Icons.delete_outline_rounded, color: AppColors.red, size: 20.sp),
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
           for (int o = 0; o < d.options.length; o++)
             Padding(
               key: ObjectKey(d.options[o]),
-              padding: const EdgeInsetsDirectional.only(start: 30, bottom: 6),
+              padding: EdgeInsetsDirectional.only(start: AppPadding.h, bottom: 6.h),
               child: Row(
                 children: <Widget>[
                   // Drawn by hand rather than with Radio: Radio's groupValue
@@ -223,24 +226,24 @@ class _QuestionListEditorState extends State<QuestionListEditor> {
                               if (d.correct >= d.options.length) d.correct = 0;
                             }),
                     icon: AppIcon(Icons.remove_circle_outline,
-                        color: AppColors.secondaryText, size: 18),
+                        color: AppColors.secondaryText, size: 18.sp),
                   ),
                 ],
               ),
             ),
           Padding(
-            padding: const EdgeInsetsDirectional.only(start: 30),
+            padding: EdgeInsetsDirectional.only(start: AppPadding.h),
             child: Row(
               children: <Widget>[
                 if (d.options.length < 6)
                   TextButton.icon(
                     onPressed: () => _update(() => d.options.add(TextEditingController())),
-                    icon: const AppIcon(Icons.add_rounded, size: 18),
+                    icon: AppIcon(Icons.add_rounded, size: 18.sp),
                     label: Text(s.addOption),
                   ),
                 const Spacer(),
-                AppIcon(Icons.check_circle_rounded, size: 14, color: const Color(0xff10B981)),
-                const SizedBox(width: 4),
+                AppIcon(Icons.check_circle_rounded, size: 14.sp, color: const Color(0xff10B981)),
+                SizedBox(width: 4.w),
                 Text(
                   s.markCorrectHint,
                   style: StyleText.fontSize12Weight400.copyWith(color: AppColors.secondaryText),

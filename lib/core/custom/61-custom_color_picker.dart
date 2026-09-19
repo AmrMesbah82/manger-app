@@ -19,6 +19,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manger_plus/core/custom/101-custom_surface.dart';
 import 'package:manger_plus/core/custom/5-custom_button.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/generated/l10n.dart';
 
@@ -108,8 +109,8 @@ class CustomColorPickerField extends StatelessWidget {
                     onColorChanged: (Color value) => working = value,
                     width: 40.sp,
                     height: 36.sp,
-                    spacing: 4,
-                    runSpacing: 4,
+                    spacing: 4.w,
+                    runSpacing: 4.h,
                     borderRadius: 4,
                     wheelDiameter: 190.sp,
                     enableShadesSelection: true,
@@ -146,7 +147,7 @@ class CustomColorPickerField extends StatelessWidget {
                     function: () => Navigator.of(dialogContext).pop(false),
                     color: AppColors.greyDark,
                     width: 120.sp,
-                    height: 36,
+                    height: 36.h,
                     textStyle: StyleText.fontSize14Weight500
                         .copyWith(color: AppColors.text),
                   ),
@@ -155,7 +156,7 @@ class CustomColorPickerField extends StatelessWidget {
                     function: () => Navigator.of(dialogContext).pop(true),
                     color: AppColors.primary,
                     width: 120.sp,
-                    height: 36,
+                    height: 36.h,
                     textStyle: StyleText.fontSize14Weight500
                         .copyWith(color: AppColors.textButton),
                   ),
@@ -179,7 +180,7 @@ class CustomColorPickerField extends StatelessWidget {
       child: GestureDetector(
         onTap: () => _pick(context),
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 12.sp, vertical: 9.sp),
+          padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 9.sp),
           decoration: BoxDecoration(
             color: AppColors.background,
             borderRadius: BorderRadius.circular(kAppRadius.r),

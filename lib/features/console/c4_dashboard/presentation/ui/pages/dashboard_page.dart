@@ -40,6 +40,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
@@ -131,12 +132,12 @@ class _DashboardViewState extends State<_DashboardView> {
     // collapses to the height of its spinner and lands under the title
     // instead of in the middle of the empty page.
     if (state.loading) {
-      return const SizedBox(height: 360, child: AppLoading());
+      return SizedBox(height: 360.h, child: AppLoading());
     }
 
     if (state.error != null) {
       return SizedBox(
-        height: 360,
+        height: 360.h,
         child: AppErrorView(
           message: AppFailure.from(state.error!).message(context),
         ),
@@ -172,16 +173,20 @@ class _DashboardViewState extends State<_DashboardView> {
             ),
           ],
         ),
-        const SizedBox(height: 22),
+        SizedBox(height: 22.h),
 
         // ── Section chips ───────────────────────────────────────────────
         if (state.sections.length > 1) ...<Widget>[
           _SectionChips(state: state, onSelected: cubit.selectSection),
-          const SizedBox(height: 22),
+          SizedBox(height: 22.h),
         ],
 
         // ── Tiles ───────────────────────────────────────────────────────
-        TileGrid(tileHeight: 110, children: <Widget>[
+        // FOUR NUMBERS, ONE ROW (19/9/2026). They are read as a set — 6
+        // students, 89% attendance, 82% average, 7 published — so they belong
+        // on one line at every width, smaller rather than wrapped. `StatTile`
+        // stacks itself when its cell gets narrow.
+        TileGrid(columns: 4, tileHeight: 110, children: <Widget>[
           StatTile(
             icon: Icons.backpack_rounded,
             color: const Color(0xff10B981),
@@ -211,7 +216,7 @@ class _DashboardViewState extends State<_DashboardView> {
             value: state.publishedContentCount,
           ),
         ]),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
 
         // ── Charts ──────────────────────────────────────────────────────
         if (state.showCharts) ...<Widget>[
@@ -219,12 +224,12 @@ class _DashboardViewState extends State<_DashboardView> {
             const DashboardChartsEmpty()
           else
             DashboardChartsSection(state: state),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
 
           // Overview's two content cards. They read the cubit's `content`
           // list rather than opening a stream of their own.
           _ContentRow(state: state),
-          const SizedBox(height: 26),
+          SizedBox(height: 26.h),
         ],
 
         // ── Records ─────────────────────────────────────────────────────
@@ -252,7 +257,7 @@ class _ContentRow extends StatelessWidget {
           return Column(
             children: <Widget>[
               ContentMixCard(items: state.scopedContent),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               RecentContentCard(items: state.scopedContent),
             ],
           );
@@ -261,7 +266,7 @@ class _ContentRow extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Expanded(flex: 3, child: ContentMixCard(items: state.scopedContent)),
-            const SizedBox(width: 16),
+            SizedBox(width: 16.w),
             Expanded(
                 flex: 2, child: RecentContentCard(items: state.scopedContent)),
           ],

@@ -9,6 +9,7 @@
 /// Created: 18/9/2026
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:manger_plus/core/theme/app_colors.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
@@ -33,7 +34,7 @@ class PoweredByFooter extends StatelessWidget {
           textAlign: TextAlign.center,
           style: StyleText.fontSize12Weight600.copyWith(color: c),
         ),
-        const SizedBox(height: 2),
+        SizedBox(height: 2.h),
         Text(
           arabic ? '© $year جميع الحقوق محفوظة' : '© $year All rights reserved',
           textAlign: TextAlign.center,

@@ -17,9 +17,12 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/learning_content.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/enums/content_type.dart';
@@ -39,33 +42,33 @@ class ContentMixCard extends StatelessWidget {
         .fold<int>(1, (int a, int b) => a > b ? a : b);
 
     return Surface(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 20.sp),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(S.of(context).contentLibrary, style: StyleText.fontSize16Weight600),
-          const SizedBox(height: 4),
+          SizedBox(height: 4.h),
           Text(
             S.of(context).itemsCount('${items.length}'),
             style: StyleText.fontSize13Weight400
                 .copyWith(color: AppColors.secondaryText),
           ),
-          const SizedBox(height: 18),
+          SizedBox(height: 18.h),
           for (final ContentType type in ContentType.values) ...<Widget>[
             Row(
               children: <Widget>[
-                ContentTypeIcon(type: type, size: 22),
-                const SizedBox(width: 10),
+                ContentTypeIcon(type: type, size: 22.sp),
+                SizedBox(width: 10.w),
                 SizedBox(
-                  width: 110,
+                  width: 110.w,
                   child: Text(type.plural(context),
                       style: StyleText.fontSize13Weight500),
                 ),
                 Expanded(
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(6),
+                    borderRadius: AppRadius.containerR,
                     child: LinearProgressIndicator(
-                      minHeight: 10,
+                      minHeight: 10.h,
                       value:
                           items.where((LearningContent c) => c.type == type).length /
                               max,
@@ -74,9 +77,9 @@ class ContentMixCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 SizedBox(
-                  width: 28,
+                  width: 28.w,
                   child: Text(
                     '${items.where((LearningContent c) => c.type == type).length}',
                     textAlign: TextAlign.end,
@@ -85,7 +88,7 @@ class ContentMixCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 14),
+            SizedBox(height: 14.h),
           ],
         ],
       ),
@@ -102,15 +105,15 @@ class RecentContentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Surface(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 20.sp),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Text(S.of(context).recentlyAdded, style: StyleText.fontSize16Weight600),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           if (items.isEmpty)
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 24),
+              padding: EdgeInsets.symmetric(vertical: 24.h),
               child: Text(
                 S.of(context).noContentYet,
                 textAlign: TextAlign.center,
@@ -120,11 +123,11 @@ class RecentContentCard extends StatelessWidget {
             ),
           for (final LearningContent c in items.take(6))
             Padding(
-              padding: const EdgeInsets.only(bottom: 10),
+              padding: EdgeInsets.only(bottom: 10.h),
               child: Row(
                 children: <Widget>[
-                  ContentTypeIcon(type: c.type, size: 36),
-                  const SizedBox(width: 10),
+                  ContentTypeIcon(type: c.type, size: 36.sp),
+                  SizedBox(width: 10.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

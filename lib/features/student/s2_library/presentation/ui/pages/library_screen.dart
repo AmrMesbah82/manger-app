@@ -15,6 +15,7 @@ import 'package:manger_plus/core/custom/35-custom_search_widget_custom.dart';
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/extensions/context_extensions.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/learning_content.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/enums/content_type.dart';
@@ -77,11 +78,11 @@ class _LibraryScreenState extends State<LibraryScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 8.h),
+                  padding: EdgeInsets.fromLTRB(AppPadding.h, 16.h, AppPadding.h, 8.h),
                   child: Text(s.libraryTab, style: StyleText.fontSize25Weight600),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  padding: EdgeInsets.symmetric(horizontal: AppPadding.h),
                   child: AppSearchTextField(
                     controller: _search,
                     expanded: false,
@@ -91,7 +92,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                 ),
                 SizedBox(height: 12.h),
                 Padding(
-                  padding: EdgeInsetsDirectional.only(start: 16.w),
+                  padding: EdgeInsetsDirectional.only(start: AppPadding.h),
                   child: FilterChipRow<ContentType>(
                     items: ContentType.values,
                     selected: _type,
@@ -119,7 +120,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                               child: ConstrainedBox(
                                 constraints: BoxConstraints(maxWidth: tablet ? 720.w : double.infinity),
                                 child: ListView.separated(
-                                  padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 24.h),
+                                  padding: EdgeInsets.fromLTRB(AppPadding.h, 0, AppPadding.h, 24.h),
                                   itemCount: items.length,
                                   separatorBuilder: (_, __) => SizedBox(height: 10.h),
                                   itemBuilder: (BuildContext context, int i) => ContentRow(

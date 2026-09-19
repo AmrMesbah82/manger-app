@@ -8,10 +8,13 @@
 /// Created: 18/9/2026
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:manger_plus/core/custom/35-custom_search_widget_custom.dart';
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/onboarding/o2_authentication/domain/entities/app_user.dart';
 import 'package:manger_plus/generated/l10n.dart';
@@ -44,8 +47,8 @@ class ChoiceWrap<T> extends StatelessWidget {
       );
     }
     return Wrap(
-      spacing: 8,
-      runSpacing: 8,
+      spacing: 8.w,
+      runSpacing: 8.h,
       children: <Widget>[
         for (final T item in items)
           FilterChip(
@@ -122,25 +125,25 @@ class _PeoplePickerState extends State<PeoplePicker> {
 
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: AppRadius.containerR,
         border: Border.all(color: AppColors.borderGrey.withOpacity(0.5)),
       ),
       child: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 8.sp),
             child: AppSearchTextField(
               controller: _search,
               expanded: false,
               onChanged: (String v) => setState(() => _query = v),
             ),
           ),
-          const Divider(height: 1),
+          Divider(height: 1.h),
           ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: widget.maxHeight),
+            constraints: BoxConstraints(maxHeight: widget.maxHeight.h),
             child: visible.isEmpty
                 ? Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 16.sp),
                     child: Text(
                       S.of(context).nobodyFound,
                       style: StyleText.fontSize13Weight400
@@ -204,11 +207,11 @@ class SwitchRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+      padding: EdgeInsets.symmetric(vertical: 6.h),
       child: Row(
         children: <Widget>[
           TypeBadge(icon: icon, color: value ? AppColors.primary : AppColors.greyIcon, size: 36),
-          const SizedBox(width: 12),
+          SizedBox(width: 12.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -244,10 +247,10 @@ class StatusPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 4.h),
       decoration: BoxDecoration(
         color: color.withOpacity(0.12),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: AppRadius.buttonR,
       ),
       child: Text(label, style: StyleText.fontSize12Weight600.copyWith(color: color)),
     );

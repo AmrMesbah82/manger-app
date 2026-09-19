@@ -15,6 +15,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manger_plus/core/custom/110-app_widgets.dart';
 import 'package:manger_plus/core/network/app_failure.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 import 'package:manger_plus/features/academy/ac1_core/data/repository/academy_repository.dart';
 import 'package:manger_plus/features/academy/ac1_core/domain/entities/learning_content.dart';
@@ -59,17 +60,17 @@ Future<void> startParentConversation(
         padding: EdgeInsets.symmetric(vertical: 16.h),
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 4.h),
+            padding: EdgeInsets.fromLTRB(AppPadding.h, 0, AppPadding.h, 4.h),
             child: Text(s.chooseTeacher, style: StyleText.fontSize18Weight600),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 12.h),
+            padding: EdgeInsets.fromLTRB(AppPadding.h, 0, AppPadding.h, 12.h),
             child: Text(s.aboutChild(child.displayName),
                 style: StyleText.fontSize13Weight500.copyWith(color: AppColors.secondaryText)),
           ),
           if (teachers.isEmpty)
             Padding(
-              padding: EdgeInsets.all(20.r),
+              padding: EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 20.r),
               child: Text(s.noTeachersToMessage,
                   style: StyleText.fontSize14Weight400.copyWith(color: AppColors.secondaryText)),
             ),
@@ -135,7 +136,7 @@ class _ParentMessagesScreenState extends State<ParentMessagesScreen> {
             padding: EdgeInsets.symmetric(vertical: 16.h),
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 12.h),
+                padding: EdgeInsets.fromLTRB(AppPadding.h, 0, AppPadding.h, 12.h),
                 child: Text(S.of(ctx).whichChild, style: StyleText.fontSize18Weight600),
               ),
               for (final AppUser k in children)
@@ -188,7 +189,7 @@ class _ParentMessagesScreenState extends State<ParentMessagesScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 12.h),
+                      padding: EdgeInsets.fromLTRB(AppPadding.h, 16.h, AppPadding.h, 12.h),
                       child: Text(s.messages, style: StyleText.fontSize25Weight600),
                     ),
                     Expanded(
@@ -207,7 +208,7 @@ class _ParentMessagesScreenState extends State<ParentMessagesScreen> {
                             );
                           }
                           return ListView.separated(
-                            padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 90.h),
+                            padding: EdgeInsets.fromLTRB(AppPadding.h, 0, AppPadding.h, 90.h),
                             itemCount: snap.data!.length,
                             separatorBuilder: (_, __) => SizedBox(height: 8.h),
                             itemBuilder: (BuildContext context, int i) => ConversationTile(

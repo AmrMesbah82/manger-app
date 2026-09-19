@@ -14,6 +14,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manger_plus/core/constants/app_assets.dart';
 import 'package:manger_plus/core/custom/32-custom_svg.dart';
 import 'package:manger_plus/core/theme/app_colors.dart';
+import 'package:manger_plus/core/theme/app_padding.dart';
+import 'package:manger_plus/core/theme/app_radius.dart';
 import 'package:manger_plus/core/theme/app_theme.dart';
 
 /// Custom text field widget — mirrors CustomDropdown API exactly.
@@ -543,7 +545,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     final resolvedError = _resolvedError;
     final hasError = resolvedError != null && resolvedError.isNotEmpty;
-    final radius = widget.borderRadius ?? BorderRadius.circular(4.r);
+    final radius = widget.borderRadius ?? AppRadius.fieldR;
     final isDisabled = !widget.enabled;
 
     // ── Suffix icon resolution ─────────────────────────────────────────────
@@ -571,7 +573,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
     // ── Content padding ────────────────────────────────────────────────────
     final effectivePadding = widget.contentPadding ??
-        EdgeInsets.symmetric(horizontal: 12.sp, vertical: 10.sp);
+        EdgeInsets.symmetric(horizontal: AppPadding.h, vertical: 10.sp);
 
     // ── Label 14.sp / hint 12.sp, ALWAYS (16/8/2026) ───────────────────────
     //
@@ -737,7 +739,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
             prefixIcon: widget.prefixIcon != null
                 ? Padding(
-              padding: EdgeInsets.only(left: 12.sp, right: 8.sp),
+              padding: EdgeInsets.only(left: AppPadding.h,right: AppPadding.h),
               child: widget.prefixIcon,
             )
                 : null,
@@ -745,7 +747,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
             suffixIcon: resolvedSuffix != null
                 ? Padding(
-              padding: EdgeInsets.only(left: 8.sp, right: 12.sp),
+              padding: EdgeInsets.only(left: AppPadding.h,right: AppPadding.h),
               child: resolvedSuffix,
             )
                 : null,

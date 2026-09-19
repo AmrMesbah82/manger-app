@@ -13,6 +13,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:manger_plus/features/console/c1_shell/presentation/ui/widgets/console_page.dart';
@@ -39,12 +40,12 @@ class ConsoleSettingsPage extends StatelessWidget {
         child: Align(
           alignment: AlignmentDirectional.topStart,
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 640),
+            constraints: BoxConstraints(maxWidth: 640.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 const SettingsBody(),
-                const SizedBox(height: 24),
+                SizedBox(height: 24.h),
                 if (isAdmin)
                   const DemoDataCard()
                 else
